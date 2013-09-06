@@ -4,12 +4,17 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2012 by Steve Nygard.
 //
 
+//
+// SDK Root: /Applications/Xcode5-DP6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
+//
+
 #import <DevToolsCore/PBXContainer.h>
 
 #import "PBXChangeNotification.h"
 #import "PBXContainerItemChangeNotification.h"
 #import "XCCompatibilityChecking.h"
 #import "XCConfigurationInspectables.h"
+#import "XCRemoteComputer.h"
 
 @class NSArray, NSDate, NSHashTable, NSMapTable, NSMutableArray, NSMutableDictionary, NSSet, NSString, NSTimer, PBXBookmarkGroup, PBXBuildSettingsDictionary, PBXBuildStyle, PBXCodeSenseManager, PBXExecutable, PBXFileReference, PBXGroup, PBXLogOutputString, PBXProjectIndex, PBXTarget, XCArchiveFormat, XCBreakpointsBucket, XCBuildOperation, XCConfigurationList, XCFileSystemWatcher, XCRoots, XCSourceControlManager;
 

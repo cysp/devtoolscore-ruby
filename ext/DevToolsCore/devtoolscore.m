@@ -1,33 +1,41 @@
-#import "ruby.h"
+#import <Foundation/Foundation.h>
+
+#include <dlfcn.h>
+#include <stdio.h>
+
+#include "ruby.h"
+
+#include "devtoolscore_pbxproject.h"
+
 
 static NSBundle *devtoolscore_bundle = nil;
-
-VALUE rb_cPBXProject = nil;
-struct rb_PBXProject_s {
-	void *object;
-};
+static NSBundle *devtoolsfoundation_bundle = nil;
 
 
-static VALUE pbxproject_alloc(VALUE klass);
-static void pbxproject_initialize(VALUE self, VALUE project_path);
-static void pbxproject_dealloc(VALUE object);
-
-void Init_devtoolscore() {
-	devtoolscore_bundle = [[NSBundle alloc] initWithPath:@"/Applications/Xcode5-DP6.app/Contents/OtherFrameworks/DevToolsCore.framework"];
+void Init_devtoolscore_ext() {
+	NSString * const bundlePath = @"/Applications/Xcode5-DP6.app/Contents/OtherFrameworks";
+	//NSString * const bundlePath = @"/Applications/Xcode5-DP6.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/Frameworks";
+	devtoolscore_bundle = [[NSBundle alloc] initWithPath:[bundlePath stringByAppendingPathComponent:@"DevToolsCore.framework"]];
 	if (!devtoolscore_bundle) {
 		rb_raise(rb_eLoadError, "Could not load DevToolsCore.framework bundle");
 		return;
 	}
+	devtoolsfoundation_bundle = [[NSBundle alloc] initWithPath:[bundlePath stringByAppendingPathComponent:@"DevToolsFoundation.framework"]];
+	if (!devtoolsfoundation_bundle) {
+		rb_raise(rb_eLoadError, "Could not load DevToolsFoundation.framework bundle");
+		return;
+	}
 
 	NSError *error = nil;
-	if (![devToolsCoreBundle loadAndReturnError:&error]) {
+	if (![devtoolscore_bundle loadAndReturnError:&error]) {
 		rb_raise(rb_eLoadError, "Could not load DevToolsCore.framework code: %s", error.localizedDescription.UTF8String);
 		return;
 	}
 
-	void(*IDEInitialize)(NSUInteger initializationOptions, NSError **error) = dlsym(RTLD_DEFAULT, "IDEInitialize");
-	if (!IDEInitialize) {
-		rb_raise(rb_eLoadError, "Could not find IDEInitialize()");
+	void(*XCInitializeCoreIfNeeded)(BOOL hasGUI) = dlsym(RTLD_DEFAULT, "XCInitializeCoreIfNeeded");
+	//void(*IDEInitialize)(NSUInteger initializationOptions, NSError **error) = dlsym(RTLD_DEFAULT, "IDEInitialize");
+	if (!XCInitializeCoreIfNeeded) {
+		rb_raise(rb_eLoadError, "Could not find XCInitializeCoreIfNeeded()");
 		return;
 	}
 
@@ -41,50 +49,16 @@ void Init_devtoolscore() {
 		close(dev_null);
 		NSError *error = nil;
 		// -[Xcode3CommandLineBuildTool run] from Xcode3Core.ideplugin calls IDEInitialize(1, &error)
-		IDEInitialize(1, &error);
+		XCInitializeCoreIfNeeded(NO);
 		fflush(stderr);
 		dup2(saved_stderr, STDERR_FILENO);
 		close(saved_stderr);
 		if (error) {
-			rb_raise(rb_eLoadError, "IDEInitialize error: %s", error.localizedDescription.UTF8String);
+			rb_raise(rb_eLoadError, "XCInitializeCoreIfNeeded error: %s", error.localizedDescription.UTF8String);
 			return;
 		}
 	}
 
 
-	rb_cPBXProject = rb_define_class("PBXProject", rb_cObject);
-	rb_define_alloc_func(rb_cPBXProject, pbxproject_alloc);
-	rb_define_method(rb_cPBXProject, "initialize", pbxproject_initialize, 1);
-}
-
-static VALUE pbxproject_alloc(VALUE klass) {
-	struct rb_PBXProject_s *s = NULL;
-	return Data_Make_Struct(klass, struct rb_PBXProject_s, NULL, pbxproject_dealloc, s);
-}
-
-static void pbxproject_initialize(VALUE self, VALUE project_path) {
-	Check_Type(project_path, T_STRING);
-
-	struct rb_PBXProject_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXProject_s, string);
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	NSString *path = [[NSString alloc] initWithUTF8String:project_path];
-	s->p = [[PBXProject alloc] initWithPath:path];
-}
-
-static void pbxproject_dealloc(VALUE object) {
-	struct rb_PBXProject_s *s = Data_Get_Struct(object, struct rb_PBXProject_s, struct rb_PBXProject_s *);
-	if (!s) {
-		return;
-	}
-
-	PBXProject *p = (PBXProject *)s->object;
-	if (p) {
-		CFRelease(p);
-	}
-	free(s);
+	devtoolscore_pbxproject_define();
 }

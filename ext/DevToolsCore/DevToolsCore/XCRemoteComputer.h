@@ -4,71 +4,50 @@
 //     class-dump is Copyright (C) 1997-1998, 2000-2001, 2004-2012 by Steve Nygard.
 //
 
+//
+// SDK Root: /Applications/Xcode5-DP6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
+//
+
 #import "NSObject.h"
 
-#import "XCRemoteComputer.h"
+@class NSMutableDictionary, NSString, XCPlatformSpecification;
 
-@class NSMutableDictionary, NSString, XCPlatformSpecification, XCRemoteExecutable;
-
-@interface XCRemoteComputer : NSObject <XCRemoteComputer>
-{
-    BOOL deviceAvailable;
-    NSMutableDictionary *_data;
-    XCRemoteExecutable *currentRemoteExecutable;
-}
-
-+ (id)keyPathsForValuesAffectingDeviceSoftwareVersion;
-+ (id)keyPathsForValuesAffectingDeviceIsIgnored;
-+ (id)keyPathsForValuesAffectingCachePath;
-+ (id)keyPathsForValuesAffectingDeviceArchitecture;
-+ (id)keyPathsForValuesAffectingDeviceName;
-+ (id)keyPathsForValuesAffectingDeviceIdentifier;
-+ (id)keyPathsForValuesAffectingPlatform;
+@protocol XCRemoteComputer <NSObject>
++ (void)loadOrganizerCategories;
 + (BOOL)handleDroppedFile:(id)arg1;
 + (BOOL)shouldHandleDroppedFile:(id)arg1;
-+ (id)allocWithZone:(struct _NSZone *)arg1;
-+ (id)itemWithPlistRepresentation:(id)arg1;
-+ (void)loadOrganizerCategories;
-+ (void)beginListeningForDevices;
-@property BOOL deviceAvailable; // @synthesize deviceAvailable;
-@property(readonly) NSMutableDictionary *data; // @synthesize data=_data;
+@property(readonly) BOOL canRenameDevice;
+@property(readonly) NSString *deviceSoftwareVersion;
+@property(readonly) BOOL deviceHasUI;
+@property(readonly) BOOL deviceIsBusy;
+@property BOOL deviceIsIgnored;
+@property(readonly) BOOL deviceIsTransient;
+@property(readonly) BOOL deviceAvailable;
+@property(readonly) NSString *cachePath;
+@property(readonly) NSString *deviceArchitecture;
+@property(readonly) NSString *deviceName;
+@property(readonly) XCPlatformSpecification *platform;
+@property(readonly) NSString *deviceIdentifier;
+@property(readonly) NSString *platformIdentifier;
+@property(readonly) NSMutableDictionary *data;
 - (int)debuggerArchitectureMode;
+- (void)willBeForgotten;
+- (void)willExecuteCompleted;
+- (void)willExecuteFailed;
 - (id)setCurrentExecutable:(id)arg1;
 - (id)currentRemoteExecutable;
-- (id)debuggerAttachList;
 - (void)renameDevice:(id)arg1;
-@property(readonly) BOOL canRenameDevice;
-- (void)willBeForgotten;
+- (id)debuggerAttachList;
 - (void)didExecute:(id)arg1;
-- (void)_willExecuteComplete;
-- (void)willExecuteFailed;
-- (void)willExecuteCompleted;
 - (BOOL)willExecute:(id)arg1 debug:(BOOL)arg2 onPort:(long long *)arg3 performInstall:(BOOL)arg4;
 - (void)willExecuteAsync:(id)arg1 shouldInstall:(BOOL)arg2;
 - (BOOL)useAsyncWillExecute;
 - (BOOL)preflightExecutable:(id)arg1;
 - (BOOL)canExecute;
-- (unsigned long long)hash;
-- (BOOL)isEqual:(id)arg1;
-@property BOOL deviceIsIgnored;
-@property(copy) NSString *deviceSoftwareVersion;
-@property(readonly) BOOL deviceHasUI;
-- (void)setDeviceArchitecture:(id)arg1;
-@property(readonly) NSString *deviceArchitecture;
-@property(copy) NSString *deviceName;
-@property(copy) NSString *deviceIdentifier;
-- (void)setValue:(id)arg1 forKeyPath:(id)arg2;
-@property(readonly) BOOL deviceIsBusy;
-@property(readonly) BOOL deviceIsTransient;
-@property(readonly) XCPlatformSpecification *platform;
-@property(readonly) NSString *platformIdentifier;
-@property(readonly) NSString *cachePath;
 - (BOOL)shouldApplicationTerminate;
 - (void)invalidate;
-- (void)dealloc;
-- (id)initWithPlistRepresentation:(id)arg1;
-- (id)init;
-- (id)plistRepresentation;
 
+@optional
++ (_Bool)archiveApplicationAtURL:(id)arg1 error:(id *)arg2;
 @end
 
