@@ -4,7 +4,7 @@ extension_name = 'devtoolscore'
 
 dir_config extension_name
 
-$CFLAGS << ' -I./DevToolsCore'
+$CFLAGS << ' -I./DevToolsCore -fobjc-arc'
 $DLDFLAGS << ' -framework Foundation'
 
 create_makefile extension_name

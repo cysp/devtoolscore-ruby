@@ -6,13 +6,16 @@
 #include "ruby.h"
 
 #include "devtoolscore_pbxproject.h"
+#include "devtoolscore_pbxtarget.h"
 
 
 static NSBundle *devtoolscore_bundle = nil;
 static NSBundle *devtoolsfoundation_bundle = nil;
 
+VALUE rb_mDevToolsCore = 0;
 
-void Init_devtoolscore_ext() {
+
+void Init_devtoolscore() {
 	NSString * const bundlePath = @"/Applications/Xcode5-DP6.app/Contents/OtherFrameworks";
 	//NSString * const bundlePath = @"/Applications/Xcode5-DP6.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/Frameworks";
 	devtoolscore_bundle = [[NSBundle alloc] initWithPath:[bundlePath stringByAppendingPathComponent:@"DevToolsCore.framework"]];
@@ -20,15 +23,17 @@ void Init_devtoolscore_ext() {
 		rb_raise(rb_eLoadError, "Could not load DevToolsCore.framework bundle");
 		return;
 	}
+	{
+		NSError *error = nil;
+		if (![devtoolscore_bundle loadAndReturnError:&error]) {
+			rb_raise(rb_eLoadError, "Could not load DevToolsCore.framework code: %s", error.localizedDescription.UTF8String);
+			return;
+		}
+	}
+
 	devtoolsfoundation_bundle = [[NSBundle alloc] initWithPath:[bundlePath stringByAppendingPathComponent:@"DevToolsFoundation.framework"]];
 	if (!devtoolsfoundation_bundle) {
 		rb_raise(rb_eLoadError, "Could not load DevToolsFoundation.framework bundle");
-		return;
-	}
-
-	NSError *error = nil;
-	if (![devtoolscore_bundle loadAndReturnError:&error]) {
-		rb_raise(rb_eLoadError, "Could not load DevToolsCore.framework code: %s", error.localizedDescription.UTF8String);
 		return;
 	}
 
@@ -59,6 +64,8 @@ void Init_devtoolscore_ext() {
 		}
 	}
 
+	rb_mDevToolsCore = rb_define_module("DevToolsCore");
 
 	devtoolscore_pbxproject_define();
+	devtoolscore_pbxtarget_define();
 }

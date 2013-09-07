@@ -1,0 +1,671 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C2AA597164A5FFC001B7050 /* STBase64Encoding.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C2AA596164A5FFC001B7050 /* STBase64Encoding.h */; };
+		2C2AA599164A5FFC001B7050 /* STBase64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2AA598164A5FFC001B7050 /* STBase64Encoding.m */; };
+		2C2AA5A1164A5FFC001B7050 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2AA5A0164A5FFC001B7050 /* SenTestingKit.framework */; };
+		2C2AA5A4164A5FFC001B7050 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2AA591164A5FFC001B7050 /* Foundation.framework */; };
+		2C2AA5A7164A5FFC001B7050 /* libSTBase64Encoding.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2AA58E164A5FFC001B7050 /* libSTBase64Encoding.a */; };
+		2C2AA5B0164A5FFC001B7050 /* STBase64EncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2AA5AF164A5FFC001B7050 /* STBase64EncodingTests.m */; };
+		2CCF481017471CFD00BBE8A2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2AA5A0164A5FFC001B7050 /* SenTestingKit.framework */; };
+		2CCF481F17471EA100BBE8A2 /* STBase64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2AA598164A5FFC001B7050 /* STBase64Encoding.m */; };
+		2CCF482017471EA400BBE8A2 /* STBase64EncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2AA5AF164A5FFC001B7050 /* STBase64EncodingTests.m */; };
+		2CCF482117471EB900BBE8A2 /* libSTBase64Encoding.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CCF47FA17471CEB00BBE8A2 /* libSTBase64Encoding.a */; };
+		2CCF482417471EF700BBE8A2 /* STBase64Encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2AA596164A5FFC001B7050 /* STBase64Encoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2C2AA5A5164A5FFC001B7050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C2AA585164A5FFC001B7050 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C2AA58D164A5FFC001B7050;
+			remoteInfo = STBase64Encoding;
+		};
+		2CCF482217471EC400BBE8A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C2AA585164A5FFC001B7050 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CCF47F917471CEB00BBE8A2;
+			remoteInfo = "STBase64Encoding-mac";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2C2AA58C164A5FFC001B7050 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				2C2AA597164A5FFC001B7050 /* STBase64Encoding.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2C2AA58E164A5FFC001B7050 /* libSTBase64Encoding.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSTBase64Encoding.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C2AA591164A5FFC001B7050 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2C2AA596164A5FFC001B7050 /* STBase64Encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STBase64Encoding.h; sourceTree = "<group>"; };
+		2C2AA598164A5FFC001B7050 /* STBase64Encoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STBase64Encoding.m; sourceTree = "<group>"; };
+		2C2AA59F164A5FFC001B7050 /* STBase64EncodingTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STBase64EncodingTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C2AA5A0164A5FFC001B7050 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		2C2AA5AA164A5FFC001B7050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C2AA5AE164A5FFC001B7050 /* STBase64EncodingTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STBase64EncodingTests.h; sourceTree = "<group>"; };
+		2C2AA5AF164A5FFC001B7050 /* STBase64EncodingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STBase64EncodingTests.m; sourceTree = "<group>"; };
+		2CCF47FA17471CEB00BBE8A2 /* libSTBase64Encoding.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSTBase64Encoding.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CCF480F17471CFD00BBE8A2 /* STBase64EncodingTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STBase64EncodingTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C2AA58B164A5FFC001B7050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C2AA59B164A5FFC001B7050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C2AA5A4164A5FFC001B7050 /* Foundation.framework in Frameworks */,
+				2C2AA5A1164A5FFC001B7050 /* SenTestingKit.framework in Frameworks */,
+				2C2AA5A7164A5FFC001B7050 /* libSTBase64Encoding.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CCF47F717471CEB00BBE8A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CCF480B17471CFD00BBE8A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CCF481017471CFD00BBE8A2 /* SenTestingKit.framework in Frameworks */,
+				2CCF482117471EB900BBE8A2 /* libSTBase64Encoding.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C2AA583164A5FFC001B7050 = {
+			isa = PBXGroup;
+			children = (
+				2C2AA593164A5FFC001B7050 /* STBase64Encoding */,
+				2C2AA5A8164A5FFC001B7050 /* STBase64EncodingTests */,
+				2C2AA590164A5FFC001B7050 /* Frameworks */,
+				2C2AA58F164A5FFC001B7050 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2C2AA58F164A5FFC001B7050 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2C2AA58E164A5FFC001B7050 /* libSTBase64Encoding.a */,
+				2C2AA59F164A5FFC001B7050 /* STBase64EncodingTests.octest */,
+				2CCF47FA17471CEB00BBE8A2 /* libSTBase64Encoding.a */,
+				2CCF480F17471CFD00BBE8A2 /* STBase64EncodingTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2C2AA590164A5FFC001B7050 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C2AA591164A5FFC001B7050 /* Foundation.framework */,
+				2C2AA5A0164A5FFC001B7050 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C2AA593164A5FFC001B7050 /* STBase64Encoding */ = {
+			isa = PBXGroup;
+			children = (
+				2C2AA596164A5FFC001B7050 /* STBase64Encoding.h */,
+				2C2AA598164A5FFC001B7050 /* STBase64Encoding.m */,
+			);
+			path = STBase64Encoding;
+			sourceTree = "<group>";
+		};
+		2C2AA5A8164A5FFC001B7050 /* STBase64EncodingTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C2AA5AA164A5FFC001B7050 /* Info.plist */,
+				2C2AA5AE164A5FFC001B7050 /* STBase64EncodingTests.h */,
+				2C2AA5AF164A5FFC001B7050 /* STBase64EncodingTests.m */,
+			);
+			path = STBase64EncodingTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2CCF47F817471CEB00BBE8A2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CCF482417471EF700BBE8A2 /* STBase64Encoding.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2C2AA58D164A5FFC001B7050 /* STBase64Encoding-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C2AA5B3164A5FFC001B7050 /* Build configuration list for PBXNativeTarget "STBase64Encoding-iOS" */;
+			buildPhases = (
+				2C2AA58A164A5FFC001B7050 /* Sources */,
+				2C2AA58B164A5FFC001B7050 /* Frameworks */,
+				2C2AA58C164A5FFC001B7050 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "STBase64Encoding-iOS";
+			productName = STBase64Encoding;
+			productReference = 2C2AA58E164A5FFC001B7050 /* libSTBase64Encoding.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2C2AA59E164A5FFC001B7050 /* STBase64EncodingTests-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C2AA5B6164A5FFC001B7050 /* Build configuration list for PBXNativeTarget "STBase64EncodingTests-iOS" */;
+			buildPhases = (
+				2C2AA59A164A5FFC001B7050 /* Sources */,
+				2C2AA59B164A5FFC001B7050 /* Frameworks */,
+				2C2AA59C164A5FFC001B7050 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C2AA5A6164A5FFC001B7050 /* PBXTargetDependency */,
+			);
+			name = "STBase64EncodingTests-iOS";
+			productName = STBase64EncodingTests;
+			productReference = 2C2AA59F164A5FFC001B7050 /* STBase64EncodingTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		2CCF47F917471CEB00BBE8A2 /* STBase64Encoding-mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CCF480717471CEB00BBE8A2 /* Build configuration list for PBXNativeTarget "STBase64Encoding-mac" */;
+			buildPhases = (
+				2CCF47F617471CEB00BBE8A2 /* Sources */,
+				2CCF47F717471CEB00BBE8A2 /* Frameworks */,
+				2CCF47F817471CEB00BBE8A2 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "STBase64Encoding-mac";
+			productName = "STBase64Encoding-mac";
+			productReference = 2CCF47FA17471CEB00BBE8A2 /* libSTBase64Encoding.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2CCF480E17471CFD00BBE8A2 /* STBase64EncodingTests-mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CCF481C17471CFD00BBE8A2 /* Build configuration list for PBXNativeTarget "STBase64EncodingTests-mac" */;
+			buildPhases = (
+				2CCF480A17471CFD00BBE8A2 /* Sources */,
+				2CCF480B17471CFD00BBE8A2 /* Frameworks */,
+				2CCF480C17471CFD00BBE8A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2CCF482317471EC400BBE8A2 /* PBXTargetDependency */,
+			);
+			name = "STBase64EncodingTests-mac";
+			productName = "STBase64EncodingTests-mac";
+			productReference = 2CCF480F17471CFD00BBE8A2 /* STBase64EncodingTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2C2AA585164A5FFC001B7050 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
+			buildConfigurationList = 2C2AA588164A5FFC001B7050 /* Build configuration list for PBXProject "STBase64Encoding" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2C2AA583164A5FFC001B7050;
+			productRefGroup = 2C2AA58F164A5FFC001B7050 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C2AA58D164A5FFC001B7050 /* STBase64Encoding-iOS */,
+				2C2AA59E164A5FFC001B7050 /* STBase64EncodingTests-iOS */,
+				2CCF47F917471CEB00BBE8A2 /* STBase64Encoding-mac */,
+				2CCF480E17471CFD00BBE8A2 /* STBase64EncodingTests-mac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C2AA59C164A5FFC001B7050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CCF480C17471CFD00BBE8A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C2AA58A164A5FFC001B7050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C2AA599164A5FFC001B7050 /* STBase64Encoding.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C2AA59A164A5FFC001B7050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C2AA5B0164A5FFC001B7050 /* STBase64EncodingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CCF47F617471CEB00BBE8A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CCF481F17471EA100BBE8A2 /* STBase64Encoding.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CCF480A17471CFD00BBE8A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CCF482017471EA400BBE8A2 /* STBase64EncodingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C2AA5A6164A5FFC001B7050 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C2AA58D164A5FFC001B7050 /* STBase64Encoding-iOS */;
+			targetProxy = 2C2AA5A5164A5FFC001B7050 /* PBXContainerItemProxy */;
+		};
+		2CCF482317471EC400BBE8A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CCF47F917471CEB00BBE8A2 /* STBase64Encoding-mac */;
+			targetProxy = 2CCF482217471EC400BBE8A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2C2AA5B1164A5FFC001B7050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+			};
+			name = Debug;
+		};
+		2C2AA5B2164A5FFC001B7050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2C2AA5B4164A5FFC001B7050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/STBase64Encoding.dst;
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2C2AA5B5164A5FFC001B7050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/STBase64Encoding.dst;
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2C2AA5B7164A5FFC001B7050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2C2AA5B8164A5FFC001B7050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		2C56618217608C7500EBCD54 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
+				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+			};
+			name = Coverage;
+		};
+		2C56618317608C7500EBCD54 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/STBase64Encoding.dst;
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Coverage;
+		};
+		2C56618417608C7500EBCD54 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Coverage;
+		};
+		2C56618517608C7500EBCD54 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Coverage;
+		};
+		2C56618617608C7500EBCD54 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Coverage;
+		};
+		2CCF480817471CEB00BBE8A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2CCF480917471CEB00BBE8A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = STBase64Encoding;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2CCF481D17471CFD00BBE8A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2CCF481E17471CFD00BBE8A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				INFOPLIST_FILE = STBase64EncodingTests/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = STBase64EncodingTests;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C2AA588164A5FFC001B7050 /* Build configuration list for PBXProject "STBase64Encoding" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C2AA5B1164A5FFC001B7050 /* Debug */,
+				2C56618217608C7500EBCD54 /* Coverage */,
+				2C2AA5B2164A5FFC001B7050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C2AA5B3164A5FFC001B7050 /* Build configuration list for PBXNativeTarget "STBase64Encoding-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C2AA5B4164A5FFC001B7050 /* Debug */,
+				2C56618317608C7500EBCD54 /* Coverage */,
+				2C2AA5B5164A5FFC001B7050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C2AA5B6164A5FFC001B7050 /* Build configuration list for PBXNativeTarget "STBase64EncodingTests-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C2AA5B7164A5FFC001B7050 /* Debug */,
+				2C56618417608C7500EBCD54 /* Coverage */,
+				2C2AA5B8164A5FFC001B7050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CCF480717471CEB00BBE8A2 /* Build configuration list for PBXNativeTarget "STBase64Encoding-mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CCF480817471CEB00BBE8A2 /* Debug */,
+				2C56618517608C7500EBCD54 /* Coverage */,
+				2CCF480917471CEB00BBE8A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CCF481C17471CFD00BBE8A2 /* Build configuration list for PBXNativeTarget "STBase64EncodingTests-mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CCF481D17471CFD00BBE8A2 /* Debug */,
+				2C56618617608C7500EBCD54 /* Coverage */,
+				2CCF481E17471CFD00BBE8A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2C2AA585164A5FFC001B7050 /* Project object */;
+}
