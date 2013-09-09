@@ -32,7 +32,7 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 
 	@autoreleasepool {
 		NSString * const path = [[NSString alloc] initWithUTF8String:RSTRING_PTR(project_path_value)];
-		PBXProject * const project = [cPBXProject projectWithFile:path errorHandler:nil readOnly:YES];
+		PBXProject * const project = [cPBXProject projectWithFile:path errorHandler:nil readOnly:NO];
 		if (!project) {
 			return Qnil;
 		}
@@ -45,6 +45,12 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 		if (project_name) {
 			VALUE const project_name_value = rb_str_new_cstr(project_name.UTF8String);
 			rb_ivar_set(project_value, rb_intern("@name"), project_name_value);
+		}
+
+		NSString * const project_path = project.path;
+		if (project_path) {
+			VALUE const project_path_value = rb_str_new_cstr(project_path.UTF8String);
+			rb_ivar_set(project_value, rb_intern("@path"), project_path_value);
 		}
 
 		return project_value;
@@ -169,12 +175,22 @@ static VALUE pbxproject_available_build_configuration_names(VALUE self) {
 }
 
 
-static VALUE pbxproject_write(VALUE self) {
+static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
 	struct rb_PBXProject_s *s = NULL;
 	Data_Get_Struct(self, struct rb_PBXProject_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
+	}
+
+	if (argc > 1) {
+		rb_raise(rb_eArgError, "incorrect number of arguments");
+		return Qnil;
+	}
+
+	VALUE path_value = 0;
+	if (argc == 1) {
+		path_value = argv[0];
 	}
 
 	@autoreleasepool {
@@ -183,7 +199,15 @@ static VALUE pbxproject_write(VALUE self) {
 			return Qfalse;
 		}
 
-		BOOL const success = [p writeToFileSystemProjectFile:YES userFile:NO checkNeedsRevert:NO];
+		NSString *path = path_value ? [[NSString alloc] initWithUTF8String:RSTRING_PTR(path_value)] : nil;
+		if (!path) {
+			path = p.path;
+		}
+		if (path) {
+			[[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL];
+		}
+
+		BOOL const success = [p writeToFile:path projectFile:YES userFile:NO outResultNotification:NULL];
 		return success ? Qtrue : Qfalse;
 	}
 }
@@ -200,9 +224,10 @@ void devtoolscore_pbxproject_define(void) {
 	rb_define_alloc_func(rb_cPBXProject, pbxproject_alloc);
 	rb_define_singleton_method(rb_cPBXProject, "open", pbxproject_open, 1);
 	rb_define_attr(rb_cPBXProject, "name", 1, 0);
+	rb_define_attr(rb_cPBXProject, "path", 1, 0);
 	rb_define_method(rb_cPBXProject, "targets", pbxproject_targets, 0);
 	rb_define_method(rb_cPBXProject, "target_named", pbxproject_target_named, 1);
 	rb_define_method(rb_cPBXProject, "active_build_configuration_name", pbxproject_active_build_configuration_name, 0);
 	rb_define_method(rb_cPBXProject, "available_build_configuration_names", pbxproject_available_build_configuration_names, 0);
-	rb_define_method(rb_cPBXProject, "write", pbxproject_write, 0);
+	rb_define_method(rb_cPBXProject, "write", pbxproject_write, -1);
 }

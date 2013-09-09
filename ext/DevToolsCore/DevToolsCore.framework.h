@@ -39,6 +39,7 @@
 - (id)availableBuildConfigurationNames;
 - (id)activeBuildConfigurationName;
 - (BOOL)writeToFileSystemProjectFile:(BOOL)arg1 userFile:(BOOL)arg2 checkNeedsRevert:(BOOL)arg3;
+- (BOOL)writeToFile:(NSString *)file projectFile:(BOOL)arg2 userFile:(BOOL)arg3 outResultNotification:(id *)arg4;
 - (void)close;
 - (BOOL)isClosed;
 - (BOOL)canWriteToAuxiliaryProjectFileWithName:(id)arg1;
