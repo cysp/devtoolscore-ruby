@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.expand_path('lib', File.dirname(__FILE__))
+BASEDIR = File.dirname(__FILE__)
+
+require 'devtoolscore'
+require 'fastimage'
+require 'pp'
+
+p = DevToolsCore::PBXProject.open('/Users/psyc/src/ffx/mobile-misc-weatherzone-iphone/Weatherzone.xcodeproj')
+
+target_plus = p.targets.select{ |t| t.name == 'Weatherzone+' }.first
+exit 1 if target_plus.nil?
+
+resource_build_files = []
+
+target_plus.build_phases.each do |bp|
+  case bp
+  when DevToolsCore::PBXResourcesBuildPhase
+    resource_build_files.concat(bp.build_files)
+  end
+end
+
+png_2x_files = {}
+png_non2x_files = {}
+
+resource_build_files.each do |bf|
+  n = bf.name
+  case n
+  when /@2x(?:~.\+)?\.png$/
+    ap = bf.absolute_path
+    png_2x_files[n] = FastImage.size(ap)
+  when /(?:~.\+)?\.png$/
+    ap = bf.absolute_path
+    png_non2x_files[n] = FastImage.size(ap)
+  end
+end
+
+missing_2x_files = []
+missing_non2x_files = []
+
+png_2x_files.keys.each do |n|
+  n_non2x = n.sub(/@2x((?:~.+)?\.png)$/, '\1')
+  missing_non2x_files << n_non2x unless png_non2x_files.include?(n_non2x)
+end
+png_non2x_files.keys.each do |n|
+  n_2x = n.sub(/((?:~.+)?\.png)$/, '@2x\1')
+  missing_2x_files << n_2x unless png_2x_files.include?(n_2x)
+end
+
+incorrect_2x_files = []
+png_2x_files.each do |n,i|
+  n_non2x = n.sub(/@2x((?:~.+)?\.png)$/, '\1')
+  png_non2x_file = png_non2x_files[n_non2x]
+  next unless png_non2x_file
+  unless (i[0] == png_non2x_file[0]*2 && i[1] == png_non2x_file[1]*2)
+    incorrect_2x_files << [ n, i, png_non2x_file ]
+  end
+end
+
+puts 'missing @2x files: (%d)' % missing_2x_files.count
+pp missing_2x_files
+puts ''
+puts 'missing non-@2x files: (%d)' % missing_non2x_files.count
+pp missing_non2x_files
+puts ''
+puts 'incorrectly size @2x files: (%d)' % incorrect_2x_files.count
+pp incorrect_2x_files
