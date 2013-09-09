@@ -3,4 +3,6 @@
 
 extern VALUE rb_mDevToolsCore;
 
+extern VALUE devtoolscore_alloc_raise(VALUE klass);
+
 #endif

@@ -5,6 +5,7 @@
 
 #include "devtoolscore.h"
 #include "devtoolscore_pbxtarget.h"
+#include "devtoolscore_pbxbuildphase.h"
 
 
 static Class cPBXTarget = NULL;
@@ -13,17 +14,13 @@ VALUE rb_cPBXTarget = 0;
 struct rb_PBXTarget_s {
 	VALUE project;
 	CFTypeRef target;
+	VALUE build_phases_value;
 };
 
 
 //static VALUE pbxtarget_initialize(VALUE self, VALUE project_value, VALUE name_value);
 static void pbxtarget_mark(VALUE self);
 static void pbxtarget_dealloc(VALUE self);
-
-static VALUE pbxtarget_alloc(VALUE klass) {
-	rb_raise(rb_eArgError, "Don't create PBXTargets");
-	return Qnil;
-}
 
 VALUE devtoolscore_pbxtarget_new(VALUE project_value, PBXTarget *target) {
 	struct rb_PBXTarget_s *s = NULL;
@@ -52,6 +49,9 @@ static void pbxtarget_mark(VALUE self) {
 
 	if (s->project) {
 		rb_gc_mark(s->project);
+	}
+	if (s->build_phases_value) {
+		rb_gc_mark(s->build_phases_value);
 	}
 }
 
@@ -133,6 +133,42 @@ static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE se
 	}
 }
 
+static VALUE pbxtarget_build_phases(VALUE self) {
+	struct rb_PBXTarget_s *s = NULL;
+	Data_Get_Struct(self, struct rb_PBXTarget_s, s);
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return Qnil;
+	}
+
+	@autoreleasepool {
+		PBXTarget * const t = (__bridge PBXTarget *)s->target;
+		if (!t) {
+			rb_raise(rb_eArgError, "target is nil?");
+			return Qnil;
+		}
+
+		VALUE build_phases_value = s->build_phases_value;
+		if (build_phases_value) {
+			return build_phases_value;
+		}
+
+		NSArray * const buildPhases = t.buildPhases;
+		build_phases_value = rb_ary_new2(buildPhases.count);
+		for (PBXBuildPhase *buildPhase in buildPhases) {
+			VALUE const buildphase_value = devtoolscore_pbxbuildphase_new(self, buildPhase);
+			if (buildphase_value) {
+				rb_ary_push(build_phases_value, buildphase_value);
+			}
+		}
+
+		s->build_phases_value = build_phases_value;
+
+		return build_phases_value;
+	}
+}
+
+
 
 void devtoolscore_pbxtarget_define(void) {
 	cPBXTarget = NSClassFromString(@"PBXTarget");
@@ -142,8 +178,9 @@ void devtoolscore_pbxtarget_define(void) {
 	}
 
 	rb_cPBXTarget = rb_define_class_under(rb_mDevToolsCore, "PBXTarget", rb_cObject);
-	rb_define_alloc_func(rb_cPBXTarget, pbxtarget_alloc);
+	rb_define_alloc_func(rb_cPBXTarget, devtoolscore_alloc_raise);
 	rb_define_attr(rb_cPBXTarget, "name", 1, 0);
 	rb_define_method(rb_cPBXTarget, "name=", pbxtarget_name_set, 1);
 	rb_define_method(rb_cPBXTarget, "expanded_value_for_string", pbxtarget_expanded_value_for_string, -1);
+	rb_define_method(rb_cPBXTarget, "build_phases", pbxtarget_build_phases, 0);
 }

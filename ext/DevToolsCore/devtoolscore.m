@@ -7,6 +7,8 @@
 
 #include "devtoolscore_pbxproject.h"
 #include "devtoolscore_pbxtarget.h"
+#include "devtoolscore_pbxbuildphase.h"
+#include "devtoolscore_pbxbuildfile.h"
 
 
 /*
@@ -68,6 +70,7 @@ void Init_devtoolscore() {
 	}
 	*/
 
+#if 0
 	if (0) {
 		/*
 		// Temporary redirect stderr to /dev/null in order not to print plugin loading errors
@@ -91,9 +94,17 @@ void Init_devtoolscore() {
 			return;
 		}
 	}
+#endif
 
 	rb_mDevToolsCore = rb_define_module("DevToolsCore");
 
 	devtoolscore_pbxproject_define();
 	devtoolscore_pbxtarget_define();
+	devtoolscore_pbxbuildphase_define();
+	devtoolscore_pbxbuildfile_define();
+}
+
+VALUE devtoolscore_alloc_raise(VALUE klass) {
+	rb_raise(rb_eArgError, "Don't directly create objects of class %s", rb_class2name(klass));
+	return Qnil;
 }

@@ -25,6 +25,11 @@
 - (id)rootGroup;
 - (id)modTime;
 - (id)children;
+- (id)allFileReferences;
+- (id)allGroups;
+- (id)allReferences;
+- (id)allItemsOfClass:(Class)arg1;
+- (id)allItems;
 @end
 
 @interface PBXProject : PBXContainer
@@ -60,6 +65,14 @@
 @interface PBXProjectItem : PBXContainerItem
 @end
 
+@interface PBXBuildFile : PBXProjectItem
+@property (nonatomic,strong,readonly) NSString *name;
+@property (nonatomic,strong,readonly) NSString *path;
+@property (nonatomic,strong,readonly) NSString *absolutePath;
+@property (nonatomic,strong,readonly) NSString *resolvedAbsolutePath;
+@property (nonatomic,strong,readonly) NSString *projectRelativePath;
+@end
+
 @interface PBXTarget : PBXProjectItem
 @property (nonatomic,copy) NSString *name;
 - (id)buildConfigurations;
@@ -75,7 +88,7 @@
 - (id)productNameForConfigurationNamed:(id)arg1;
 - (id)platform;
 - (id)platformForConfigurationNamed:(id)arg1;
-- (id)buildPhases;
+- (NSArray *)buildPhases; // PBXBuildPhase
 - (id)missingDependencies;
 @end
 
@@ -90,6 +103,7 @@
 @end
 
 @interface PBXBuildPhase : PBXProjectItem
+- (NSArray *)buildFiles; // PBXBuildFile
 @end
 
 @interface PBXAppleScriptBuildPhase : PBXBuildPhase
@@ -119,6 +133,7 @@
 @end
 
 @interface PBXReference : PBXContainerItem
+@property (nonatomic,strong,readonly) NSString *projectRelativePath;
 @end
 
 @interface PBXFileReference : PBXReference

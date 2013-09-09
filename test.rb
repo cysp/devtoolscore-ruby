@@ -13,9 +13,10 @@ pp p
 puts 'c'
 pp p.name
 puts 'd'
+pp p.targets
 targets = p.targets
-t = targets[2]
 pp targets
+t = targets[2]
 puts 'e'
 pp p.available_build_configuration_names
 pp p.active_build_configuration_name
