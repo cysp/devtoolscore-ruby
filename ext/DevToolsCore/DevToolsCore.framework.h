@@ -168,7 +168,8 @@
 @end
 
 @interface PBXGroup : PBXReference
-- (id)name;
+- (void)insertInChildren:(id)arg1 atIndex:(unsigned long long)arg2;
+- (void)moveObject:(id)arg1 toIndex:(unsigned long long)arg2;
 @end
 
 @interface PBXGroupEnumerator : NSEnumerator <NSCopying>

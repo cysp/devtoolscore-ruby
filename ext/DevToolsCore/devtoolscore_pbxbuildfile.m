@@ -15,8 +15,8 @@ struct dtc_rbcPBXBuildFile_s {
 
 
 //static VALUE pbxbuildfile_initialize(VALUE self, VALUE buildphase_value, VALUE name_value);
-static void pbxbuildfile_mark(VALUE self);
-static void pbxbuildfile_dealloc(VALUE self);
+static void pbxbuildfile_mark(struct dtc_rbcPBXBuildFile_s *s);
+static void pbxbuildfile_dealloc(struct dtc_rbcPBXBuildFile_s *s);
 
 VALUE dtc_pbxbuildfile_new(PBXBuildFile *buildFile, VALUE buildphase_value) {
 	struct dtc_rbcPBXBuildFile_s *s = NULL;
@@ -42,13 +42,16 @@ VALUE dtc_pbxbuildfile_new(PBXBuildFile *buildFile, VALUE buildphase_value) {
 	return buildfile_value;
 }
 
-static void pbxbuildfile_mark(VALUE self) {
-	struct dtc_rbcPBXBuildFile_s *s = (struct dtc_rbcPBXBuildFile_s *)self;
+PBXBuildFile *dtc_pbxbuildfile_pbxobject(VALUE object) {
+	struct dtc_rbcPBXBuildFile_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXBuildFile_s, s);
 	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
+		return NULL;
 	}
+	return (__bridge PBXBuildFile *)s->buildfile;
+}
 
+static void pbxbuildfile_mark(struct dtc_rbcPBXBuildFile_s *s) {
 	if (s->buildphase) {
 		rb_gc_mark(s->buildphase);
 	}
@@ -57,13 +60,7 @@ static void pbxbuildfile_mark(VALUE self) {
 	}
 }
 
-static void pbxbuildfile_dealloc(VALUE self) {
-	struct dtc_rbcPBXBuildFile_s *s = (struct dtc_rbcPBXBuildFile_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
+static void pbxbuildfile_dealloc(struct dtc_rbcPBXBuildFile_s *s) {
 	@autoreleasepool {
 		CFTypeRef buildfile = s->buildfile;
 		if (buildfile) {

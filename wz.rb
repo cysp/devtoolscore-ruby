@@ -22,7 +22,24 @@ def pp_project_recursively(p)
   _pp_project_recursively(p.root_group)
 end
 
-pp_project_recursively(p)
+def _sort_project_recursively(o)
+  if o.kind_of?(DevToolsCore::PBXGroup)
+    o.children = o.children.sort{ |a,b| a.name <=> b.name }
+    o.children.each do |c|
+      _sort_project_recursively(c)
+    end
+  end
+end
+def sort_project_recursively(p)
+  _sort_project_recursively(p.root_group)
+end
+
+#pp_project_recursively(p)
+
+sort_project_recursively(p)
+
+pp p.write
+#pp_project_recursively(p)
 
 exit 0
 

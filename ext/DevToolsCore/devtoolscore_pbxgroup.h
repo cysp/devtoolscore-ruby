@@ -13,5 +13,6 @@
 extern void dtc_pbxgroup_define(void);
 
 extern VALUE dtc_pbxgroup_new(PBXGroup *group, VALUE parent_value);
+extern PBXGroup *dtc_pbxgroup_pbxobject(VALUE object);
 
 #endif

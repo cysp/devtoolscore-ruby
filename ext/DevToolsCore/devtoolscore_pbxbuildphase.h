@@ -12,5 +12,6 @@
 extern void dtc_pbxbuildphase_define(void);
 
 extern VALUE dtc_pbxbuildphase_new(PBXBuildPhase *buildPhase, VALUE target_value);
+extern PBXBuildPhase *dtc_pbxbuildphase_pbxobject(VALUE object);
 
 #endif

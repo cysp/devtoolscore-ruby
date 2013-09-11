@@ -53,6 +53,15 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 	}
 }
 
+PBXProject *dtc_pbxproject_pbxobject(VALUE object) {
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXProject_s, s);
+	if (!s) {
+		return NULL;
+	}
+	return (__bridge PBXProject *)s->project;
+}
+
 static void pbxproject_dealloc(VALUE self) {
 	struct dtc_rbcPBXProject_s * const s = (struct dtc_rbcPBXProject_s *)self;
 	if (!s) {

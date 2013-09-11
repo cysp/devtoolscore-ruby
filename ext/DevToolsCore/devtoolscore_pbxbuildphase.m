@@ -33,6 +33,15 @@ VALUE dtc_pbxbuildphase_new(PBXBuildPhase *buildphase, VALUE target_value) {
 	return buildphase_value;
 }
 
+PBXBuildPhase *dtc_pbxbuildphase_pbxobject(VALUE object) {
+	struct dtc_rbcPBXBuildPhase_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXBuildPhase_s, s);
+	if (!s) {
+		return NULL;
+	}
+	return (__bridge PBXBuildPhase *)s->buildphase;
+}
+
 static void pbxbuildphase_mark(VALUE self) {
 	struct dtc_rbcPBXBuildPhase_s *s = (struct dtc_rbcPBXBuildPhase_s *)self;
 	if (!s) {

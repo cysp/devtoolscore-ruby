@@ -56,5 +56,6 @@ DEVTOOLSCORE_DECLARE_CLASSES(PBXTarget)
 VALUE dtc_klass_for_pbxobject(PBXObject *object);
 
 VALUE dtc_pbxsomething_new(PBXObject *object, VALUE parent);
+PBXObject *dtc_pbxsomething_pbxobject(VALUE object);
 
 #endif

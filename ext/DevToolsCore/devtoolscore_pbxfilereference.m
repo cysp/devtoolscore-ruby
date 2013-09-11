@@ -35,6 +35,15 @@ VALUE dtc_pbxfilereference_new(PBXFileReference *filereference, VALUE parent_val
 	return filereference_value;
 }
 
+PBXFileReference *dtc_pbxfilereference_pbxobject(VALUE object) {
+	struct dtc_rbcPBXFileReference_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXFileReference_s, s);
+	if (!s) {
+		return NULL;
+	}
+	return (__bridge PBXFileReference *)s->filereference;
+}
+
 static void pbxfilereference_mark(struct dtc_rbcPBXFileReference_s *s) {
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");

@@ -38,6 +38,15 @@ VALUE dtc_pbxtarget_new(PBXTarget *target, VALUE project_value) {
 	return target_value;
 }
 
+PBXTarget *dtc_pbxtarget_pbxobject(VALUE object) {
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXTarget_s, s);
+	if (!s) {
+		return NULL;
+	}
+	return (__bridge PBXTarget *)s->target;
+}
+
 static void pbxtarget_mark(VALUE self) {
 	struct dtc_rbcPBXTarget_s *s = (struct dtc_rbcPBXTarget_s *)self;
 	if (!s) {

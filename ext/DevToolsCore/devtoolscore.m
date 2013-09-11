@@ -223,6 +223,36 @@ VALUE dtc_pbxsomething_new(PBXObject *object, VALUE parent) {
 	return Qnil;
 }
 
+PBXObject *dtc_pbxsomething_pbxobject(VALUE object) {
+	if (rb_obj_is_kind_of(object, dtc_rbcPBXObject)) {
+		if (rb_obj_is_kind_of(object, dtc_rbcPBXContainerItem)) {
+			if (rb_obj_is_kind_of(object, dtc_rbcPBXProjectItem)) {
+				if (rb_obj_is_kind_of(object, dtc_rbcPBXBuildPhase)) {
+					return dtc_pbxbuildphase_pbxobject(object);
+				}
+				if (rb_obj_is_kind_of(object, dtc_rbcPBXTarget)) {
+					return dtc_pbxtarget_pbxobject(object);
+				}
+				return NULL;
+			}
+			if (rb_obj_is_kind_of(object, dtc_rbcPBXReference)) {
+				if (rb_obj_is_kind_of(object, dtc_rbcPBXFileReference)) {
+					return dtc_pbxfilereference_pbxobject(object);
+				}
+				if (rb_obj_is_kind_of(object, dtc_rbcPBXGroup)) {
+					return dtc_pbxgroup_pbxobject(object);
+				}
+				return NULL;
+			}
+			return NULL;
+		}
+		return NULL;
+	}
+
+	return NULL;
+}
+
+
 /*
 @interface PBXContainerItem : PBXObject
 @interface PBXProjectItem : PBXContainerItem

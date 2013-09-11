@@ -13,5 +13,6 @@
 extern void dtc_pbxfilereference_define(void);
 
 extern VALUE dtc_pbxfilereference_new(PBXFileReference *filereference, VALUE parent_value);
+extern PBXFileReference *dtc_pbxfilereference_pbxobject(VALUE object);
 
 #endif

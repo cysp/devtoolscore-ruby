@@ -13,5 +13,6 @@
 extern void dtc_pbxtarget_define(void);
 
 extern VALUE dtc_pbxtarget_new(PBXTarget *target, VALUE project_value);
+extern PBXTarget *dtc_pbxtarget_pbxobject(VALUE object);
 
 #endif

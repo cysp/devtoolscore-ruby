@@ -13,5 +13,6 @@
 extern void dtc_pbxbuildfile_define(void);
 
 extern VALUE dtc_pbxbuildfile_new(PBXBuildFile *buildFile, VALUE parent_value);
+extern PBXBuildFile *dtc_pbxbuildfile_pbxobject(VALUE object);
 
 #endif
