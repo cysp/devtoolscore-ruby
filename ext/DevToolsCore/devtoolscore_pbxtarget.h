@@ -10,9 +10,8 @@
 #endif
 
 
-extern VALUE rb_cPBXTarget;
-extern void devtoolscore_pbxtarget_define(void);
+extern void dtc_pbxtarget_define(void);
 
-extern VALUE devtoolscore_pbxtarget_new(VALUE project_value, PBXTarget *target);
+extern VALUE dtc_pbxtarget_new(PBXTarget *target, VALUE project_value);
 
 #endif

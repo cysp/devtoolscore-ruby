@@ -24,7 +24,7 @@
 - (id)name;
 - (id)rootGroup;
 - (id)modTime;
-- (id)children;
+- (NSArray *)children;
 - (id)allFileReferences;
 - (id)allGroups;
 - (id)allReferences;
@@ -133,7 +133,9 @@
 @end
 
 @interface PBXReference : PBXContainerItem
+@property (nonatomic,strong,readonly) NSString *name;
 @property (nonatomic,strong,readonly) NSString *projectRelativePath;
+- (NSArray *)children;
 @end
 
 @interface PBXFileReference : PBXReference

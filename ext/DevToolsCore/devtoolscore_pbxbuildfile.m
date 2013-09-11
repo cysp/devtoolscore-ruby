@@ -7,10 +7,7 @@
 #include "devtoolscore_pbxbuildfile.h"
 
 
-static Class cPBXBuildFile = NULL;
-
-VALUE rb_cPBXBuildFile = 0;
-struct rb_PBXBuildFile_s {
+struct dtc_rbcPBXBuildFile_s {
 	VALUE buildphase;
 	CFTypeRef buildfile;
 	VALUE absolute_path_value;
@@ -21,9 +18,9 @@ struct rb_PBXBuildFile_s {
 static void pbxbuildfile_mark(VALUE self);
 static void pbxbuildfile_dealloc(VALUE self);
 
-VALUE devtoolscore_pbxbuildfile_new(VALUE buildphase_value, PBXBuildFile *buildFile) {
-	struct rb_PBXBuildFile_s *s = NULL;
-	VALUE buildfile_value = Data_Make_Struct(rb_cPBXBuildFile, struct rb_PBXBuildFile_s, pbxbuildfile_mark, pbxbuildfile_dealloc, s);
+VALUE dtc_pbxbuildfile_new(PBXBuildFile *buildFile, VALUE buildphase_value) {
+	struct dtc_rbcPBXBuildFile_s *s = NULL;
+	VALUE buildfile_value = Data_Make_Struct(dtc_rbcPBXBuildFile, struct dtc_rbcPBXBuildFile_s, pbxbuildfile_mark, pbxbuildfile_dealloc, s);
 	s->buildphase = buildphase_value;
 
 	@autoreleasepool {
@@ -46,7 +43,7 @@ VALUE devtoolscore_pbxbuildfile_new(VALUE buildphase_value, PBXBuildFile *buildF
 }
 
 static void pbxbuildfile_mark(VALUE self) {
-	struct rb_PBXBuildFile_s *s = (struct rb_PBXBuildFile_s *)self;
+	struct dtc_rbcPBXBuildFile_s *s = (struct dtc_rbcPBXBuildFile_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
@@ -61,7 +58,7 @@ static void pbxbuildfile_mark(VALUE self) {
 }
 
 static void pbxbuildfile_dealloc(VALUE self) {
-	struct rb_PBXBuildFile_s *s = (struct rb_PBXBuildFile_s *)self;
+	struct dtc_rbcPBXBuildFile_s *s = (struct dtc_rbcPBXBuildFile_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
@@ -76,8 +73,8 @@ static void pbxbuildfile_dealloc(VALUE self) {
 }
 
 static VALUE pbxbuildfile_absolute_path(VALUE self) {
-	struct rb_PBXBuildFile_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXBuildFile_s, s);
+	struct dtc_rbcPBXBuildFile_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXBuildFile_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -108,16 +105,15 @@ static VALUE pbxbuildfile_absolute_path(VALUE self) {
 	}
 }
 
-void devtoolscore_pbxbuildfile_define(void) {
-	cPBXBuildFile = NSClassFromString(@"PBXBuildFile");
-	if (!cPBXBuildFile) {
+void dtc_pbxbuildfile_define(void) {
+	if (!dtc_cPBXBuildFile) {
 		rb_raise(rb_eLoadError, "Could not find class PBXBuildFile");
 		return;
 	}
 
-	rb_cPBXBuildFile = rb_define_class_under(rb_mDevToolsCore, "PBXBuildFile", rb_cObject);
-	rb_define_alloc_func(rb_cPBXBuildFile, devtoolscore_alloc_raise);
-	rb_define_attr(rb_cPBXBuildFile, "name", 1, 0);
-	rb_define_attr(rb_cPBXBuildFile, "path", 1, 0);
-	rb_define_method(rb_cPBXBuildFile, "absolute_path", pbxbuildfile_absolute_path, 0);
+	dtc_rbcPBXBuildFile = rb_define_class_under(dtc_rbmDevToolsCore, "PBXBuildFile", dtc_rbcPBXProjectItem);
+	rb_define_alloc_func(dtc_rbcPBXBuildFile, dtc_alloc_raise);
+	rb_define_attr(dtc_rbcPBXBuildFile, "name", 1, 0);
+	rb_define_attr(dtc_rbcPBXBuildFile, "path", 1, 0);
+	rb_define_method(dtc_rbcPBXBuildFile, "absolute_path", pbxbuildfile_absolute_path, 0);
 }

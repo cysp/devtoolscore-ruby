@@ -9,8 +9,28 @@ require 'pp'
 
 p = DevToolsCore::PBXProject.open('/Users/psyc/src/ffx/mobile-misc-weatherzone-iphone/Weatherzone.xcodeproj')
 
+def _pp_project_recursively(o, indent_level=0)
+  print '  ' * indent_level
+  pp o
+  if o.kind_of?(DevToolsCore::PBXGroup)
+    o.children.each do |c|
+      _pp_project_recursively(c, indent_level+1)
+    end
+  end
+end
+def pp_project_recursively(p)
+  _pp_project_recursively(p.root_group)
+end
+
+pp_project_recursively(p)
+
+exit 0
+
 target_plus = p.targets.select{ |t| t.name == 'Weatherzone+' }.first
 exit 1 if target_plus.nil?
+target_free = p.targets.select{ |t| t.name == 'Weatherzone Free' }.first
+exit 1 if target_free.nil?
+
 
 resource_build_files = []
 
@@ -20,6 +40,15 @@ target_plus.build_phases.each do |bp|
     resource_build_files.concat(bp.build_files)
   end
 end
+
+free_resource_build_files = []
+target_free.build_phases.each do |bp|
+  case bp
+  when DevToolsCore::PBXResourcesBuildPhase
+    free_resource_build_files.concat(bp.build_files)
+  end
+end
+
 
 png_2x_files = {}
 png_non2x_files = {}
@@ -58,6 +87,9 @@ png_2x_files.each do |n,i|
   end
 end
 
+plus_files_missing_from_free = resource_files
+free_files_missing_from_plus = []
+
 puts 'missing @2x files: (%d)' % missing_2x_files.count
 pp missing_2x_files
 puts ''
@@ -66,3 +98,4 @@ pp missing_non2x_files
 puts ''
 puts 'incorrectly size @2x files: (%d)' % incorrect_2x_files.count
 pp incorrect_2x_files
+

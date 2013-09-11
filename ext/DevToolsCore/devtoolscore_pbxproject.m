@@ -4,14 +4,13 @@
 #include "ruby.h"
 
 #include "devtoolscore.h"
+#include "devtoolscore_pbxgroup.h"
 #include "devtoolscore_pbxtarget.h"
 
 
-static Class cPBXProject = NULL;
-
-VALUE rb_cPBXProject = 0;
-struct rb_PBXProject_s {
+struct dtc_rbcPBXProject_s {
 	CFTypeRef project;
+	VALUE root_group_value;
 	VALUE targets_value;
 };
 
@@ -21,7 +20,7 @@ static void pbxproject_mark(VALUE self);
 static void pbxproject_dealloc(VALUE self);
 
 static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
-	if (self != rb_cPBXProject) {
+	if (self != dtc_rbcPBXProject) {
 		rb_raise(rb_eArgError, "");
 	}
 
@@ -29,13 +28,13 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 
 	@autoreleasepool {
 		NSString * const path = [[NSString alloc] initWithUTF8String:RSTRING_PTR(project_path_value)];
-		PBXProject * const project = [cPBXProject projectWithFile:path errorHandler:nil readOnly:NO];
+		PBXProject * const project = [dtc_cPBXProject projectWithFile:path errorHandler:nil readOnly:NO];
 		if (!project) {
 			return Qnil;
 		}
 
-		struct rb_PBXProject_s *s = NULL;
-		VALUE project_value = Data_Make_Struct(rb_cPBXProject, struct rb_PBXProject_s, pbxproject_mark, pbxproject_dealloc, s);
+		struct dtc_rbcPBXProject_s *s = NULL;
+		VALUE project_value = Data_Make_Struct(dtc_rbcPBXProject, struct dtc_rbcPBXProject_s, pbxproject_mark, pbxproject_dealloc, s);
 		s->project = (__bridge_retained CFTypeRef)project;
 
 		NSString * const project_name = project.name;
@@ -55,7 +54,7 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 }
 
 static void pbxproject_dealloc(VALUE self) {
-	struct rb_PBXProject_s * const s = (struct rb_PBXProject_s *)self;
+	struct dtc_rbcPBXProject_s * const s = (struct dtc_rbcPBXProject_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
@@ -70,21 +69,54 @@ static void pbxproject_dealloc(VALUE self) {
 }
 
 static void pbxproject_mark(VALUE self) {
-	struct rb_PBXProject_s *s = (struct rb_PBXProject_s *)self;
+	struct dtc_rbcPBXProject_s *s = (struct dtc_rbcPBXProject_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
 	}
 
+	if (s->root_group_value) {
+		rb_gc_mark(s->root_group_value);
+	}
 	if (s->targets_value) {
 		rb_gc_mark(s->targets_value);
 	}
 }
 
 
+static VALUE pbxproject_root_group(VALUE self) {
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return Qnil;
+	}
+
+	@autoreleasepool {
+		PBXProject * const p = (__bridge PBXProject *)s->project;
+		if (!p) {
+			rb_raise(rb_eArgError, "project is nil?");
+			return Qnil;
+		}
+
+		VALUE root_group_value = s->root_group_value;
+		if (root_group_value) {
+			return root_group_value;
+		}
+
+		PBXGroup * const rootGroup = p.rootGroup;
+		root_group_value = dtc_pbxgroup_new(rootGroup, self);
+
+		s->root_group_value = root_group_value;
+
+		return root_group_value;
+	}
+}
+
+
 static VALUE pbxproject_targets(VALUE self) {
-	struct rb_PBXProject_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXProject_s, s);
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -105,7 +137,7 @@ static VALUE pbxproject_targets(VALUE self) {
 		NSArray * const targets = p.targets;
 		targets_value = rb_ary_new2(targets.count);
 		for (PBXTarget *target in targets) {
-			VALUE const target_value = devtoolscore_pbxtarget_new(self, target);
+			VALUE const target_value = dtc_pbxtarget_new(target, self);
 			if (target_value) {
 				rb_ary_push(targets_value, target_value);
 			}
@@ -118,8 +150,8 @@ static VALUE pbxproject_targets(VALUE self) {
 }
 
 static VALUE pbxproject_active_build_configuration_name(VALUE self) {
-	struct rb_PBXProject_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXProject_s, s);
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -138,8 +170,8 @@ static VALUE pbxproject_active_build_configuration_name(VALUE self) {
 }
 
 static VALUE pbxproject_available_build_configuration_names(VALUE self) {
-	struct rb_PBXProject_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXProject_s, s);
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -164,8 +196,8 @@ static VALUE pbxproject_available_build_configuration_names(VALUE self) {
 
 
 static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
-	struct rb_PBXProject_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXProject_s, s);
+	struct dtc_rbcPBXProject_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -201,20 +233,20 @@ static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
 }
 
 
-void devtoolscore_pbxproject_define(void) {
-	cPBXProject = NSClassFromString(@"PBXProject");
-	if (!cPBXProject) {
+void dtc_pbxproject_define(void) {
+	if (!dtc_cPBXProject) {
 		rb_raise(rb_eLoadError, "Could not find class PBXProject");
 		return;
 	}
 
-	rb_cPBXProject = rb_define_class_under(rb_mDevToolsCore, "PBXProject", rb_cObject);
-	rb_define_alloc_func(rb_cPBXProject, devtoolscore_alloc_raise);
-	rb_define_singleton_method(rb_cPBXProject, "open", pbxproject_open, 1);
-	rb_define_attr(rb_cPBXProject, "name", 1, 0);
-	rb_define_attr(rb_cPBXProject, "path", 1, 0);
-	rb_define_method(rb_cPBXProject, "targets", pbxproject_targets, 0);
-	rb_define_method(rb_cPBXProject, "active_build_configuration_name", pbxproject_active_build_configuration_name, 0);
-	rb_define_method(rb_cPBXProject, "available_build_configuration_names", pbxproject_available_build_configuration_names, 0);
-	rb_define_method(rb_cPBXProject, "write", pbxproject_write, -1);
+	dtc_rbcPBXProject = rb_define_class_under(dtc_rbmDevToolsCore, "PBXProject", dtc_rbcPBXContainer);
+	rb_define_alloc_func(dtc_rbcPBXProject, dtc_alloc_raise);
+	rb_define_singleton_method(dtc_rbcPBXProject, "open", pbxproject_open, 1);
+	rb_define_attr(dtc_rbcPBXProject, "name", 1, 0);
+	rb_define_attr(dtc_rbcPBXProject, "path", 1, 0);
+	rb_define_method(dtc_rbcPBXProject, "root_group", pbxproject_root_group, 0);
+	rb_define_method(dtc_rbcPBXProject, "targets", pbxproject_targets, 0);
+	rb_define_method(dtc_rbcPBXProject, "active_build_configuration_name", pbxproject_active_build_configuration_name, 0);
+	rb_define_method(dtc_rbcPBXProject, "available_build_configuration_names", pbxproject_available_build_configuration_names, 0);
+	rb_define_method(dtc_rbcPBXProject, "write", pbxproject_write, -1);
 }

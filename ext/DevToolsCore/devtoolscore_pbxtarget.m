@@ -8,10 +8,7 @@
 #include "devtoolscore_pbxbuildphase.h"
 
 
-static Class cPBXTarget = NULL;
-
-VALUE rb_cPBXTarget = 0;
-struct rb_PBXTarget_s {
+struct dtc_rbcPBXTarget_s {
 	VALUE project;
 	CFTypeRef target;
 	VALUE build_phases_value;
@@ -22,9 +19,10 @@ struct rb_PBXTarget_s {
 static void pbxtarget_mark(VALUE self);
 static void pbxtarget_dealloc(VALUE self);
 
-VALUE devtoolscore_pbxtarget_new(VALUE project_value, PBXTarget *target) {
-	struct rb_PBXTarget_s *s = NULL;
-	VALUE target_value = Data_Make_Struct(rb_cPBXTarget, struct rb_PBXTarget_s, pbxtarget_mark, pbxtarget_dealloc, s);
+VALUE dtc_pbxtarget_new(PBXTarget *target, VALUE project_value) {
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	VALUE klass = dtc_klass_for_pbxobject(target);
+	VALUE target_value = Data_Make_Struct(klass, struct dtc_rbcPBXTarget_s, pbxtarget_mark, pbxtarget_dealloc, s);
 	s->project = project_value;
 
 	@autoreleasepool {
@@ -41,7 +39,7 @@ VALUE devtoolscore_pbxtarget_new(VALUE project_value, PBXTarget *target) {
 }
 
 static void pbxtarget_mark(VALUE self) {
-	struct rb_PBXTarget_s *s = (struct rb_PBXTarget_s *)self;
+	struct dtc_rbcPBXTarget_s *s = (struct dtc_rbcPBXTarget_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
@@ -56,7 +54,7 @@ static void pbxtarget_mark(VALUE self) {
 }
 
 static void pbxtarget_dealloc(VALUE self) {
-	struct rb_PBXTarget_s *s = (struct rb_PBXTarget_s *)self;
+	struct dtc_rbcPBXTarget_s *s = (struct dtc_rbcPBXTarget_s *)self;
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return;
@@ -74,8 +72,8 @@ static void pbxtarget_dealloc(VALUE self) {
 static VALUE pbxtarget_name_set(VALUE self, VALUE name_value) {
 	Check_Type(name_value, T_STRING);
 
-	struct rb_PBXTarget_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXTarget_s, s);
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXTarget_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -96,8 +94,8 @@ static VALUE pbxtarget_name_set(VALUE self, VALUE name_value) {
 }
 
 static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE self) {
-	struct rb_PBXTarget_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXTarget_s, s);
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXTarget_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -134,8 +132,8 @@ static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE se
 }
 
 static VALUE pbxtarget_build_phases(VALUE self) {
-	struct rb_PBXTarget_s *s = NULL;
-	Data_Get_Struct(self, struct rb_PBXTarget_s, s);
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXTarget_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;
@@ -156,10 +154,8 @@ static VALUE pbxtarget_build_phases(VALUE self) {
 		NSArray * const buildPhases = t.buildPhases;
 		build_phases_value = rb_ary_new2(buildPhases.count);
 		for (PBXBuildPhase *buildPhase in buildPhases) {
-			VALUE const buildphase_value = devtoolscore_pbxbuildphase_new(self, buildPhase);
-			if (buildphase_value) {
-				rb_ary_push(build_phases_value, buildphase_value);
-			}
+			VALUE const buildphase_value = dtc_pbxsomething_new(buildPhase, self) ?: Qnil;
+			rb_ary_push(build_phases_value, buildphase_value);
 		}
 
 		s->build_phases_value = build_phases_value;
@@ -170,17 +166,16 @@ static VALUE pbxtarget_build_phases(VALUE self) {
 
 
 
-void devtoolscore_pbxtarget_define(void) {
-	cPBXTarget = NSClassFromString(@"PBXTarget");
-	if (!cPBXTarget) {
+void dtc_pbxtarget_define(void) {
+	if (!dtc_cPBXTarget) {
 		rb_raise(rb_eLoadError, "Could not find class PBXTarget");
 		return;
 	}
 
-	rb_cPBXTarget = rb_define_class_under(rb_mDevToolsCore, "PBXTarget", rb_cObject);
-	rb_define_alloc_func(rb_cPBXTarget, devtoolscore_alloc_raise);
-	rb_define_attr(rb_cPBXTarget, "name", 1, 0);
-	rb_define_method(rb_cPBXTarget, "name=", pbxtarget_name_set, 1);
-	rb_define_method(rb_cPBXTarget, "expanded_value_for_string", pbxtarget_expanded_value_for_string, -1);
-	rb_define_method(rb_cPBXTarget, "build_phases", pbxtarget_build_phases, 0);
+	dtc_rbcPBXTarget = rb_define_class_under(dtc_rbmDevToolsCore, "PBXTarget", dtc_rbcPBXProjectItem);
+	rb_define_alloc_func(dtc_rbcPBXTarget, dtc_alloc_raise);
+	rb_define_attr(dtc_rbcPBXTarget, "name", 1, 0);
+	rb_define_method(dtc_rbcPBXTarget, "name=", pbxtarget_name_set, 1);
+	rb_define_method(dtc_rbcPBXTarget, "expanded_value_for_string", pbxtarget_expanded_value_for_string, -1);
+	rb_define_method(dtc_rbcPBXTarget, "build_phases", pbxtarget_build_phases, 0);
 }
