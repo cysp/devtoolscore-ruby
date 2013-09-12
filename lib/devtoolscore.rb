@@ -1,1 +1,1 @@
-require 'devtoolscore/devtoolscore'
+require_relative '../ext/devtoolscore/devtoolscore'

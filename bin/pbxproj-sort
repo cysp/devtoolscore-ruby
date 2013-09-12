@@ -2,7 +2,6 @@
 # vim: se ft=ruby et sw=2 :
 
 require 'devtoolscore'
-require 'pp'
 
 def _sort_project_recursively(o)
   if o.kind_of?(DevToolsCore::PBXGroup)
@@ -35,8 +34,6 @@ exit 1 unless File.directory?(project_filename) and File.executable?(project_fil
 p = DevToolsCore::PBXProject.open(File.absolute_path(project_filename))
 exit 1 if p.nil?
 
-pp p
-pp p.root_group
 
 project_groups_inorder(p) do |g|
   children = g.children
