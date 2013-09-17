@@ -9,19 +9,6 @@ require 'pp'
 
 p = DevToolsCore::PBXProject.open('/Users/psyc/src/ffx/mobile-misc-weatherzone-iphone/Weatherzone.xcodeproj')
 
-def _pp_project_recursively(o, indent_level=0)
-  print '  ' * indent_level
-  pp o
-  if o.kind_of?(DevToolsCore::PBXGroup)
-    o.children.each do |c|
-      _pp_project_recursively(c, indent_level+1)
-    end
-  end
-end
-def pp_project_recursively(p)
-  _pp_project_recursively(p.root_group)
-end
-
 def _sort_project_recursively(o)
   if o.kind_of?(DevToolsCore::PBXGroup)
     o.children = o.children.sort{ |a,b| a.name <=> b.name }
@@ -34,12 +21,37 @@ def sort_project_recursively(p)
   _sort_project_recursively(p.root_group)
 end
 
-#pp_project_recursively(p)
+def _project_groups_inorder(o, &block)
+  if o.kind_of?(DevToolsCore::PBXGroup)
+    yield o if block_given?
+    o.children.each { |c| _project_groups_inorder(c, &block) }
+  end
+end
+def project_groups_inorder(p, &block)
+  _project_groups_inorder(p.root_group, &block)
+end
 
-sort_project_recursively(p)
+
+project_groups_inorder(p) do |g|
+  children = g.children
+  partitioned = []
+  curr_partition = []
+  children.each do |c|
+    if c.kind_of?(DevToolsCore::PBXFileReference)
+      curr_partition.push(c)
+    else
+      partitioned.push(curr_partition)
+      curr_partition = [ c ]
+    end
+  end
+  partitioned.push(curr_partition)
+
+  partitioned.each{ |p| p.sort!{ |a, b| a.name <=> b.name } }
+
+  g.children = partitioned.flatten
+end
 
 pp p.write
-#pp_project_recursively(p)
 
 exit 0
 

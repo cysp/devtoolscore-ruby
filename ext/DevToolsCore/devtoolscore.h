@@ -53,6 +53,13 @@ DEVTOOLSCORE_DECLARE_CLASSES(PBXTarget)
 #  define PBXObject void
 # endif
 #endif
+
+
+struct dtc_rbcPBXObject_s {
+    CFTypeRef object;
+};
+#define DTC_PBXOBJECT(s) ((struct dtc_rbcPBXObject_s *)s)
+
 VALUE dtc_klass_for_pbxobject(PBXObject *object);
 
 VALUE dtc_pbxsomething_new(PBXObject *object, VALUE parent);

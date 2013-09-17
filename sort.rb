@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+# vim: se ft=ruby et sw=2 :
+
+$:.unshift File.expand_path('lib', File.dirname(__FILE__))
+
+require 'devtoolscore'
+require 'pp'
+
+def _sort_project_recursively(o)
+  if o.kind_of?(DevToolsCore::PBXGroup)
+    o.children = o.children.sort{ |a,b| a.name <=> b.name }
+    o.children.each do |c|
+      _sort_project_recursively(c)
+    end
+  end
+end
+def sort_project_recursively(p)
+  _sort_project_recursively(p.root_group)
+end
+
+def _project_groups_inorder(o, &block)
+  if o.kind_of?(DevToolsCore::PBXGroup)
+    yield o if block_given?
+    o.children.each { |c| _project_groups_inorder(c, &block) }
+  end
+end
+def project_groups_inorder(p, &block)
+  _project_groups_inorder(p.root_group, &block)
+end
+
+
+project_filename = ARGV.shift
+exit 1 if project_filename.nil?
+
+exit 1 unless File.directory?(project_filename) and File.executable?(project_filename)
+
+p = DevToolsCore::PBXProject.open(File.absolute_path(project_filename))
+exit 1 if p.nil?
+
+
+project_groups_inorder(p) do |g|
+  children = g.children
+  partitioned = []
+  curr_partition = []
+  children.each do |c|
+    if c.kind_of?(DevToolsCore::PBXFileReference)
+      curr_partition.push(c)
+    else
+      partitioned.push(curr_partition)
+      curr_partition = [ c ]
+    end
+  end
+  partitioned.push(curr_partition)
+
+  partitioned.each do |p|
+    p.sort! do |a, b|
+      a.name <=> b.name
+    end
+  end
+
+  g.children = partitioned.flatten
+end
+
+p.write != true
