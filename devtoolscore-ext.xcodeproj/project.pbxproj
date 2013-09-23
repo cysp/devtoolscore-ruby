@@ -1,0 +1,340 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C12604B17F0460800F33684 /* devtoolscore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8C617E10FDA0053440D /* devtoolscore.m */; };
+		2C12604C17F0460800F33684 /* devtoolscore_pbxbuildfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8B917E10FD90053440D /* devtoolscore_pbxbuildfile.m */; };
+		2C12604D17F0460800F33684 /* devtoolscore_pbxbuildphase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8BB17E10FDA0053440D /* devtoolscore_pbxbuildphase.m */; };
+		2C12604E17F0460800F33684 /* devtoolscore_pbxfilereference.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8BD17E10FDA0053440D /* devtoolscore_pbxfilereference.m */; };
+		2C12604F17F0460800F33684 /* devtoolscore_pbxgroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8BF17E10FDA0053440D /* devtoolscore_pbxgroup.m */; };
+		2C12605017F0460800F33684 /* devtoolscore_pbxproject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8C117E10FDA0053440D /* devtoolscore_pbxproject.m */; };
+		2C12605117F0460800F33684 /* devtoolscore_pbxtarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7D8C317E10FDA0053440D /* devtoolscore_pbxtarget.m */; };
+		2C12605617F052D400F33684 /* devtoolscore_pbxreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C12605517F052D400F33684 /* devtoolscore_pbxreference.m */; };
+		2C12605917F05C1000F33684 /* devtoolscore_pbxobject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C12605817F05C1000F33684 /* devtoolscore_pbxobject.m */; };
+		2CCC348817F044E500EC7B66 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CCC348717F044E500EC7B66 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2C12605417F052D400F33684 /* devtoolscore_pbxreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxreference.h; sourceTree = "<group>"; };
+		2C12605517F052D400F33684 /* devtoolscore_pbxreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxreference.m; sourceTree = "<group>"; };
+		2C12605717F05C1000F33684 /* devtoolscore_pbxobject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxobject.h; sourceTree = "<group>"; };
+		2C12605817F05C1000F33684 /* devtoolscore_pbxobject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxobject.m; sourceTree = "<group>"; };
+		2CCC347617F0442C00EC7B66 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		2CCC348617F044E500EC7B66 /* devtoolscore.bundle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = devtoolscore.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CCC348717F044E500EC7B66 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2CE7D8B817E10FD90053440D /* devtoolscore_pbxbuildfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxbuildfile.h; sourceTree = "<group>"; };
+		2CE7D8B917E10FD90053440D /* devtoolscore_pbxbuildfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxbuildfile.m; sourceTree = "<group>"; };
+		2CE7D8BA17E10FD90053440D /* devtoolscore_pbxbuildphase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxbuildphase.h; sourceTree = "<group>"; };
+		2CE7D8BB17E10FDA0053440D /* devtoolscore_pbxbuildphase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxbuildphase.m; sourceTree = "<group>"; };
+		2CE7D8BC17E10FDA0053440D /* devtoolscore_pbxfilereference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxfilereference.h; sourceTree = "<group>"; };
+		2CE7D8BD17E10FDA0053440D /* devtoolscore_pbxfilereference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxfilereference.m; sourceTree = "<group>"; };
+		2CE7D8BE17E10FDA0053440D /* devtoolscore_pbxgroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxgroup.h; sourceTree = "<group>"; };
+		2CE7D8BF17E10FDA0053440D /* devtoolscore_pbxgroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxgroup.m; sourceTree = "<group>"; };
+		2CE7D8C017E10FDA0053440D /* devtoolscore_pbxproject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxproject.h; sourceTree = "<group>"; };
+		2CE7D8C117E10FDA0053440D /* devtoolscore_pbxproject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxproject.m; sourceTree = "<group>"; };
+		2CE7D8C217E10FDA0053440D /* devtoolscore_pbxtarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore_pbxtarget.h; sourceTree = "<group>"; };
+		2CE7D8C317E10FDA0053440D /* devtoolscore_pbxtarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore_pbxtarget.m; sourceTree = "<group>"; };
+		2CE7D8C417E10FDA0053440D /* DevToolsCore.framework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevToolsCore.framework.h; sourceTree = "<group>"; };
+		2CE7D8C517E10FDA0053440D /* devtoolscore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devtoolscore.h; sourceTree = "<group>"; };
+		2CE7D8C617E10FDA0053440D /* devtoolscore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devtoolscore.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2CCC348317F044E500EC7B66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CCC348817F044E500EC7B66 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2CCC347417F0442C00EC7B66 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2CCC348617F044E500EC7B66 /* devtoolscore.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2CCC347517F0442C00EC7B66 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2CCC347617F0442C00EC7B66 /* CoreFoundation.framework */,
+				2CCC348717F044E500EC7B66 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2CE7D8AC17E10F760053440D = {
+			isa = PBXGroup;
+			children = (
+				2CE7D8B717E10FBC0053440D /* devtoolscore */,
+				2CCC347517F0442C00EC7B66 /* Frameworks */,
+				2CCC347417F0442C00EC7B66 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2CE7D8B717E10FBC0053440D /* devtoolscore */ = {
+			isa = PBXGroup;
+			children = (
+				2CE7D8C417E10FDA0053440D /* DevToolsCore.framework.h */,
+				2CE7D8C517E10FDA0053440D /* devtoolscore.h */,
+				2CE7D8C617E10FDA0053440D /* devtoolscore.m */,
+				2C12605717F05C1000F33684 /* devtoolscore_pbxobject.h */,
+				2C12605817F05C1000F33684 /* devtoolscore_pbxobject.m */,
+				2CE7D8B817E10FD90053440D /* devtoolscore_pbxbuildfile.h */,
+				2CE7D8B917E10FD90053440D /* devtoolscore_pbxbuildfile.m */,
+				2CE7D8BA17E10FD90053440D /* devtoolscore_pbxbuildphase.h */,
+				2CE7D8BB17E10FDA0053440D /* devtoolscore_pbxbuildphase.m */,
+				2C12605417F052D400F33684 /* devtoolscore_pbxreference.h */,
+				2C12605517F052D400F33684 /* devtoolscore_pbxreference.m */,
+				2CE7D8BC17E10FDA0053440D /* devtoolscore_pbxfilereference.h */,
+				2CE7D8BD17E10FDA0053440D /* devtoolscore_pbxfilereference.m */,
+				2CE7D8BE17E10FDA0053440D /* devtoolscore_pbxgroup.h */,
+				2CE7D8BF17E10FDA0053440D /* devtoolscore_pbxgroup.m */,
+				2CE7D8C017E10FDA0053440D /* devtoolscore_pbxproject.h */,
+				2CE7D8C117E10FDA0053440D /* devtoolscore_pbxproject.m */,
+				2CE7D8C217E10FDA0053440D /* devtoolscore_pbxtarget.h */,
+				2CE7D8C317E10FDA0053440D /* devtoolscore_pbxtarget.m */,
+			);
+			name = devtoolscore;
+			path = ext/devtoolscore;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2CCC348517F044E500EC7B66 /* devtoolscore.bundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CCC349017F044E600EC7B66 /* Build configuration list for PBXNativeTarget "devtoolscore.bundle" */;
+			buildPhases = (
+				2CCC348217F044E500EC7B66 /* Sources */,
+				2CCC348317F044E500EC7B66 /* Frameworks */,
+				2C12605317F04C0600F33684 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = devtoolscore.bundle;
+			productName = devtoolscore;
+			productReference = 2CCC348617F044E500EC7B66 /* devtoolscore.bundle */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2CE7D8AD17E10F760053440D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Scott Talbot";
+			};
+			buildConfigurationList = 2CE7D8B017E10F760053440D /* Build configuration list for PBXProject "devtoolscore-ext" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2CE7D8AC17E10F760053440D;
+			productRefGroup = 2CCC347417F0442C00EC7B66 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2CCC348517F044E500EC7B66 /* devtoolscore.bundle */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C12605317F04C0600F33684 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp ${SYMROOT}/devtoolscore.bundle ${SRCROOT}/lib/devtoolscore";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2CCC348217F044E500EC7B66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C12605917F05C1000F33684 /* devtoolscore_pbxobject.m in Sources */,
+				2C12604C17F0460800F33684 /* devtoolscore_pbxbuildfile.m in Sources */,
+				2C12604B17F0460800F33684 /* devtoolscore.m in Sources */,
+				2C12604F17F0460800F33684 /* devtoolscore_pbxgroup.m in Sources */,
+				2C12605017F0460800F33684 /* devtoolscore_pbxproject.m in Sources */,
+				2C12604D17F0460800F33684 /* devtoolscore_pbxbuildphase.m in Sources */,
+				2C12604E17F0460800F33684 /* devtoolscore_pbxfilereference.m in Sources */,
+				2C12605117F0460800F33684 /* devtoolscore_pbxtarget.m in Sources */,
+				2C12605617F052D400F33684 /* devtoolscore_pbxreference.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2CCC349117F044E600EC7B66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0/x86_64-darwin12.4.0",
+					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0",
+				);
+				INSTALL_MODE_FLAG = "u+w,go-w,a+r";
+				INSTALL_PATH = "$(SRCROOT)/lib/devtoolscore";
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					"/usr/local/Cellar/ruby/2.0.0-p247/lib",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lruby",
+					"-bundle",
+					"-dynamic",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2CCC349217F044E600EC7B66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0/x86_64-darwin12.4.0",
+					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0",
+				);
+				INSTALL_MODE_FLAG = "u+w,go-w,a+r";
+				INSTALL_PATH = "$(SRCROOT)/lib/devtoolscore";
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					"/usr/local/Cellar/ruby/2.0.0-p247/lib",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					"-lruby",
+					"-bundle",
+					"-dynamic",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2CE7D8B217E10F760053440D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		2CE7D8B317E10F760053440D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2CCC349017F044E600EC7B66 /* Build configuration list for PBXNativeTarget "devtoolscore.bundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CCC349117F044E600EC7B66 /* Debug */,
+				2CCC349217F044E600EC7B66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CE7D8B017E10F760053440D /* Build configuration list for PBXProject "devtoolscore-ext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CE7D8B217E10F760053440D /* Debug */,
+				2CE7D8B317E10F760053440D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2CE7D8AD17E10F760053440D /* Project object */;
+}

@@ -4,50 +4,35 @@
 #include "ruby.h"
 
 #include "devtoolscore.h"
+#include "devtoolscore_pbxobject.h"
 #include "devtoolscore_pbxbuildphase.h"
 #include "devtoolscore_pbxbuildfile.h"
-
-
-struct dtc_rbcPBXBuildPhase_s {
-	VALUE target;
-	CFTypeRef buildphase;
-	VALUE build_files_value;
-};
-
-
-//static VALUE pbxbuildphase_initialize(VALUE self, VALUE target_value, VALUE name_value);
-static void pbxbuildphase_mark(VALUE self);
-static void pbxbuildphase_dealloc(VALUE self);
 
 
 VALUE dtc_pbxbuildphase_new(PBXBuildPhase *buildphase, VALUE target_value) {
 	struct dtc_rbcPBXBuildPhase_s *s = NULL;
 	VALUE const klass = dtc_klass_for_pbxobject(buildphase);
-	VALUE buildphase_value = Data_Make_Struct(klass, struct dtc_rbcPBXBuildPhase_s, pbxbuildphase_mark, pbxbuildphase_dealloc, s);
+	VALUE self = Data_Make_Struct(klass, struct dtc_rbcPBXBuildPhase_s, dtc_pbxbuildphase_mark, dtc_pbxbuildphase_dealloc, s);
+    return self;
+}
+
+
+VALUE dtc_pbxbuildphase_initialize(VALUE self, PBXBuildPhase *buildphase, VALUE target_value) {
+    self = dtc_pbxobject_initialize(self, buildphase);
+
+    struct dtc_rbcPBXBuildPhase_s *s = NULL;
+    Data_Get_Struct(self, struct dtc_rbcPBXBuildPhase_s, s);
+    if (!s) {
+        return Qnil;
+    }
+
 	s->target = target_value;
 
-	@autoreleasepool {
-		s->buildphase = (__bridge_retained CFTypeRef)buildphase;
-	}
-
-	return buildphase_value;
+	return self;
 }
 
-PBXBuildPhase *dtc_pbxbuildphase_pbxobject(VALUE object) {
-	struct dtc_rbcPBXBuildPhase_s *s = NULL;
-	Data_Get_Struct(object, struct dtc_rbcPBXBuildPhase_s, s);
-	if (!s) {
-		return NULL;
-	}
-	return (__bridge PBXBuildPhase *)s->buildphase;
-}
-
-static void pbxbuildphase_mark(VALUE self) {
-	struct dtc_rbcPBXBuildPhase_s *s = (struct dtc_rbcPBXBuildPhase_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
+void dtc_pbxbuildphase_mark(struct dtc_rbcPBXBuildPhase_s *s) {
+    dtc_pbxobject_mark((struct dtc_rbcPBXObject_s *)s);
 
 	if (s->target) {
 		rb_gc_mark(s->target);
@@ -57,20 +42,20 @@ static void pbxbuildphase_mark(VALUE self) {
 	}
 }
 
-static void pbxbuildphase_dealloc(VALUE self) {
-	struct dtc_rbcPBXBuildPhase_s *s = (struct dtc_rbcPBXBuildPhase_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	@autoreleasepool {
-		CFTypeRef buildphase = s->buildphase;
-		if (buildphase) {
-			CFRelease(buildphase);
-		}
-	}
+void dtc_pbxbuildphase_dealloc(struct dtc_rbcPBXBuildPhase_s *s) {
+    dtc_pbxobject_dealloc((struct dtc_rbcPBXObject_s *)s);
 }
+
+
+PBXBuildPhase *dtc_pbxbuildphase_pbxobject(VALUE object) {
+	struct dtc_rbcPBXBuildPhase_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXBuildPhase_s, s);
+	if (!s) {
+		return NULL;
+	}
+	return (__bridge PBXBuildPhase *)DTC_PBXOBJECT(s)->object;
+}
+
 
 static VALUE pbxbuildphase_build_files(VALUE self) {
 	struct dtc_rbcPBXBuildPhase_s *s = NULL;
@@ -81,7 +66,7 @@ static VALUE pbxbuildphase_build_files(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXBuildPhase * const bp = (__bridge PBXBuildPhase *)s->buildphase;
+		PBXBuildPhase * const bp = (__bridge PBXBuildPhase *)DTC_PBXOBJECT(s)->object;
 		if (!bp) {
 			rb_raise(rb_eArgError, "buildphase is nil?");
 			return Qnil;

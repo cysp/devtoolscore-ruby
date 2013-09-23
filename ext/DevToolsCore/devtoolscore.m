@@ -6,6 +6,7 @@
 #include "ruby.h"
 
 #include "devtoolscore_pbxproject.h"
+#include "devtoolscore_pbxreference.h"
 #include "devtoolscore_pbxgroup.h"
 #include "devtoolscore_pbxfilereference.h"
 #include "devtoolscore_pbxtarget.h"
@@ -124,13 +125,14 @@ void Init_devtoolscore() {
 
 	dtc_rbmDevToolsCore = rb_define_module("DevToolsCore");
 
-	dtc_rbcPBXObject = rb_define_class_under(dtc_rbmDevToolsCore, "PBXObject", rb_cObject);
+    dtc_pbxobject_define();
+
 	dtc_rbcPBXContainer = rb_define_class_under(dtc_rbmDevToolsCore, "PBXContainer", dtc_rbcPBXObject);
 	dtc_rbcPBXContainerItem = rb_define_class_under(dtc_rbmDevToolsCore, "PBXContainerItem", dtc_rbcPBXObject);
 	dtc_rbcPBXProjectItem = rb_define_class_under(dtc_rbmDevToolsCore, "PBXProjectItem", dtc_rbcPBXContainerItem);
-	dtc_rbcPBXReference = rb_define_class_under(dtc_rbmDevToolsCore, "PBXReference", dtc_rbcPBXContainerItem);
 
 	dtc_pbxproject_define();
+	dtc_pbxreference_define();
 	dtc_pbxgroup_define();
 	dtc_pbxfilereference_define();
 	dtc_pbxtarget_define();
@@ -183,15 +185,15 @@ VALUE dtc_klass_for_pbxobject(PBXObject *object) {
 	return Qnil;
 }
 
-static bool dtc_rbclass_is_kind_of(VALUE klass, VALUE super) {
-	while (klass) {
-		if (klass == super) {
-			return true;
-		}
-		klass = rb_class_superclass(klass);
-	}
-	return false;
-}
+//static bool dtc_rbclass_is_kind_of(VALUE klass, VALUE super) {
+//	while (klass) {
+//		if (klass == super) {
+//			return true;
+//		}
+//		klass = rb_class_superclass(klass);
+//	}
+//	return false;
+//}
 VALUE dtc_pbxsomething_new(PBXObject *object, VALUE parent) {
 	Class const klass = [object class];
 

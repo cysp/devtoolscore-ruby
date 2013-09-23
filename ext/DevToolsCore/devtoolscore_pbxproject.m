@@ -9,11 +9,6 @@
 #include "devtoolscore_pbxtarget.h"
 
 
-
-static VALUE pbxproject_open(VALUE self, VALUE project_path_value);
-static void pbxproject_mark(VALUE self);
-static void pbxproject_dealloc(VALUE self);
-
 static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 	if (self != dtc_rbcPBXProject) {
 		rb_raise(rb_eArgError, "");
@@ -28,25 +23,74 @@ static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
 			return Qnil;
 		}
 
-		struct dtc_rbcPBXProject_s *s = NULL;
-		VALUE project_value = Data_Make_Struct(dtc_rbcPBXProject, struct dtc_rbcPBXProject_s, pbxproject_mark, pbxproject_dealloc, s);
+        VALUE project_value = dtc_pbxproject_alloc(dtc_rbcPBXProject);
+        project_value = dtc_pbxproject_initialize(project_value, project);
+
+        return project_value;
+    }
+}
+
+
+VALUE dtc_pbxproject_alloc(VALUE klass) {
+	struct dtc_rbcPBXProject_s *s = NULL;
+	VALUE project_value = Data_Make_Struct(dtc_rbcPBXProject, struct dtc_rbcPBXProject_s, dtc_pbxproject_mark, dtc_pbxproject_dealloc, s);
+	return project_value;
+}
+
+VALUE dtc_pbxproject_initialize(VALUE object, PBXProject *project) {
+	struct dtc_rbcPBXProject_s *s = NULL;
+    Data_Get_Struct(object, struct dtc_rbcPBXProject_s, s);
+   	if (!s) {
+   	    return Qnil;
+    }
+
+    @autoreleasepool {
 		DTC_PBXOBJECT(s)->object = (__bridge_retained CFTypeRef)project;
 
 		NSString * const project_name = project.name;
 		if (project_name) {
 			VALUE const project_name_value = rb_str_new_cstr(project_name.UTF8String);
-			rb_ivar_set(project_value, rb_intern("@name"), project_name_value);
+			rb_ivar_set(object, rb_intern("@name"), project_name_value);
 		}
 
 		NSString * const project_path = project.path;
 		if (project_path) {
 			VALUE const project_path_value = rb_str_new_cstr(project_path.UTF8String);
-			rb_ivar_set(project_value, rb_intern("@path"), project_path_value);
+			rb_ivar_set(object, rb_intern("@path"), project_path_value);
 		}
 
-		return project_value;
+		return object;
 	}
 }
+
+
+void dtc_pbxproject_dealloc(VALUE self) {
+	struct dtc_rbcPBXProject_s * const s = (struct dtc_rbcPBXProject_s *)self;
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return;
+	}
+
+    dtc_pbxobject_dealloc((struct dtc_rbcPBXObject_s *)s);
+}
+
+void dtc_pbxproject_mark(VALUE self) {
+	struct dtc_rbcPBXProject_s *s = (struct dtc_rbcPBXProject_s *)self;
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return;
+	}
+
+    dtc_pbxobject_mark((struct dtc_rbcPBXObject_s *)s);
+
+	if (s->root_group_value) {
+		rb_gc_mark(s->root_group_value);
+	}
+	if (s->targets_value) {
+		rb_gc_mark(s->targets_value);
+	}
+}
+
 
 PBXProject *dtc_pbxproject_pbxobject(VALUE object) {
 	struct dtc_rbcPBXProject_s *s = NULL;
@@ -55,36 +99,6 @@ PBXProject *dtc_pbxproject_pbxobject(VALUE object) {
 		return NULL;
 	}
 	return (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
-}
-
-static void pbxproject_dealloc(VALUE self) {
-	struct dtc_rbcPBXProject_s * const s = (struct dtc_rbcPBXProject_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	@autoreleasepool {
-		CFTypeRef p = ((struct dtc_rbcPBXObject_s *)s)->object;
-		if (p) {
-			CFRelease(p);
-		}
-	}
-}
-
-static void pbxproject_mark(VALUE self) {
-	struct dtc_rbcPBXProject_s *s = (struct dtc_rbcPBXProject_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	if (s->root_group_value) {
-		rb_gc_mark(s->root_group_value);
-	}
-	if (s->targets_value) {
-		rb_gc_mark(s->targets_value);
-	}
 }
 
 
@@ -97,7 +111,7 @@ static VALUE pbxproject_root_group(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXProject * const p = DTC_PBXJPROJECT_PROJECT(s);
+		PBXProject * const p = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
 		if (!p) {
 			rb_raise(rb_eArgError, "project is nil?");
 			return Qnil;
@@ -127,7 +141,7 @@ static VALUE pbxproject_targets(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXProject * const p = DTC_PBXJPROJECT_PROJECT(s);
+		PBXProject * const p = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
 		if (!p) {
 			rb_raise(rb_eArgError, "project is nil?");
 			return Qnil;
@@ -162,7 +176,7 @@ static VALUE pbxproject_active_build_configuration_name(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXProject * const p = DTC_PBXJPROJECT_PROJECT(s);
+		PBXProject * const p = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
 		if (!p) {
 			rb_raise(rb_eArgError, "project is nil?");
 			return Qnil;
@@ -182,7 +196,7 @@ static VALUE pbxproject_available_build_configuration_names(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXProject * const p = DTC_PBXJPROJECT_PROJECT(s);
+		PBXProject * const p = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
 		if (!p) {
 			rb_raise(rb_eArgError, "project is nil?");
 			return Qnil;
@@ -218,7 +232,7 @@ static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXProject * const p = DTC_PBXJPROJECT_PROJECT(s);
+		PBXProject * const p = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
 		if (!p) {
 			return Qfalse;
 		}

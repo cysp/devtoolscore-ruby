@@ -4,55 +4,49 @@
 #include "ruby.h"
 
 #include "devtoolscore.h"
+#include "devtoolscore_pbxobject.h"
 #include "devtoolscore_pbxtarget.h"
 #include "devtoolscore_pbxbuildphase.h"
 
 
-struct dtc_rbcPBXTarget_s {
-	VALUE project;
-	CFTypeRef target;
-	VALUE build_phases_value;
-};
-
-
-//static VALUE pbxtarget_initialize(VALUE self, VALUE project_value, VALUE name_value);
-static void pbxtarget_mark(VALUE self);
-static void pbxtarget_dealloc(VALUE self);
-
 VALUE dtc_pbxtarget_new(PBXTarget *target, VALUE project_value) {
+    VALUE self = dtc_pbxtarget_alloc(dtc_rbcPBXTarget);
+    self = dtc_pbxtarget_initialize(self, target, project_value);
+    return self;
+}
+
+
+VALUE dtc_pbxtarget_alloc(VALUE klass) {
 	struct dtc_rbcPBXTarget_s *s = NULL;
-	VALUE klass = dtc_klass_for_pbxobject(target);
-	VALUE target_value = Data_Make_Struct(klass, struct dtc_rbcPBXTarget_s, pbxtarget_mark, pbxtarget_dealloc, s);
+	VALUE self = Data_Make_Struct(dtc_rbcPBXTarget, struct dtc_rbcPBXTarget_s, dtc_pbxtarget_mark, dtc_pbxtarget_dealloc, s);
+	return self;
+}
+
+VALUE dtc_pbxtarget_initialize(VALUE self, PBXTarget *target, VALUE project_value) {
+    self = dtc_pbxobject_initialize(self, target);
+    struct dtc_rbcPBXTarget_s *s = NULL;
+    Data_Get_Struct(self, struct dtc_rbcPBXTarget_s, s);
+    if (!s) {
+        rb_raise(rb_eArgError, "self is NULL?");
+        return Qnil;
+    }
+
+
 	s->project = project_value;
 
 	@autoreleasepool {
-		s->target = (__bridge_retained CFTypeRef)target;
-
 		NSString *target_name = target.name;
 		if (target_name) {
 			VALUE target_name_value = rb_str_new_cstr(target_name.UTF8String);
-			rb_ivar_set(target_value, rb_intern("@name"), target_name_value);
+			rb_ivar_set(self, rb_intern("@name"), target_name_value);
 		}
 	}
 
-	return target_value;
+	return self;
 }
 
-PBXTarget *dtc_pbxtarget_pbxobject(VALUE object) {
-	struct dtc_rbcPBXTarget_s *s = NULL;
-	Data_Get_Struct(object, struct dtc_rbcPBXTarget_s, s);
-	if (!s) {
-		return NULL;
-	}
-	return (__bridge PBXTarget *)s->target;
-}
-
-static void pbxtarget_mark(VALUE self) {
-	struct dtc_rbcPBXTarget_s *s = (struct dtc_rbcPBXTarget_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
+void dtc_pbxtarget_mark(struct dtc_rbcPBXTarget_s *s) {
+    dtc_pbxobject_mark((struct dtc_rbcPBXObject_s *)s);
 
 	if (s->project) {
 		rb_gc_mark(s->project);
@@ -62,19 +56,18 @@ static void pbxtarget_mark(VALUE self) {
 	}
 }
 
-static void pbxtarget_dealloc(VALUE self) {
-	struct dtc_rbcPBXTarget_s *s = (struct dtc_rbcPBXTarget_s *)self;
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
+void dtc_pbxtarget_dealloc(struct dtc_rbcPBXTarget_s *s) {
+    dtc_pbxobject_dealloc((struct dtc_rbcPBXObject_s *)s);
+}
 
-	@autoreleasepool {
-		CFTypeRef target = s->target;
-		if (target) {
-			CFRelease(target);
-		}
+
+PBXTarget *dtc_pbxtarget_pbxobject(VALUE object) {
+	struct dtc_rbcPBXTarget_s *s = NULL;
+	Data_Get_Struct(object, struct dtc_rbcPBXTarget_s, s);
+	if (!s) {
+		return NULL;
 	}
+	return (__bridge PBXTarget *)DTC_PBXOBJECT(s)->object;
 }
 
 
@@ -89,14 +82,14 @@ static VALUE pbxtarget_name_set(VALUE self, VALUE name_value) {
 	}
 
 	@autoreleasepool {
-		PBXTarget *target = (__bridge PBXTarget *)s->target;
-		if (!target) {
+		PBXTarget * const t = (__bridge PBXTarget *)DTC_PBXOBJECT(s)->object;
+		if (!t) {
 			rb_raise(rb_eArgError, "target is nil?");
 			return Qnil;
 		}
 
 		NSString * const name = [[NSString alloc] initWithUTF8String:RSTRING_PTR(name_value)];
-		target.name = name;
+		t.name = name;
 
 		return name_value;
 	}
@@ -125,15 +118,15 @@ static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE se
 	}
 
 	@autoreleasepool {
-		PBXTarget *target = (__bridge PBXTarget *)s->target;
-		if (!target) {
+		PBXTarget * const t = (__bridge PBXTarget *)DTC_PBXOBJECT(s)->object;
+		if (!t) {
 			rb_raise(rb_eArgError, "target is nil?");
 			return Qnil;
 		}
 
 		NSString * const string = [[NSString alloc] initWithUTF8String:RSTRING_PTR(string_value)];
 		NSString * const configurationName = [[NSString alloc] initWithUTF8String:RSTRING_PTR(configuration_name_value)];
-		NSString * const expandedValue = [target expandedValueForString:string forConfigurationNamed:configurationName];
+		NSString * const expandedValue = [t expandedValueForString:string forConfigurationNamed:configurationName];
 
 		VALUE const expanded_value_value = rb_str_new_cstr(expandedValue.UTF8String);
 		return expanded_value_value;
@@ -149,7 +142,7 @@ static VALUE pbxtarget_build_phases(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXTarget * const t = (__bridge PBXTarget *)s->target;
+		PBXTarget * const t = (__bridge PBXTarget *)DTC_PBXOBJECT(s)->object;
 		if (!t) {
 			rb_raise(rb_eArgError, "target is nil?");
 			return Qnil;

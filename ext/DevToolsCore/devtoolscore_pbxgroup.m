@@ -7,33 +7,46 @@
 #include "devtoolscore_pbxgroup.h"
 
 
-struct dtc_rbcPBXGroup_s {
-	CFTypeRef group;
-	VALUE parent_value;
-	VALUE children_value;
-};
-
-
-static void pbxgroup_mark(struct dtc_rbcPBXGroup_s *s);
-static void pbxgroup_dealloc(struct dtc_rbcPBXGroup_s *s);
-
 VALUE dtc_pbxgroup_new(PBXGroup *group, VALUE parent_value) {
+    VALUE self = dtc_pbxgroup_alloc(dtc_rbcPBXGroup);
+    self = dtc_pbxgroup_initialize(self, group, parent_value);
+    return self;
+}
+
+
+VALUE dtc_pbxgroup_alloc(VALUE klass) {
 	struct dtc_rbcPBXGroup_s *s = NULL;
-	VALUE group_value = Data_Make_Struct(dtc_rbcPBXGroup, struct dtc_rbcPBXGroup_s, pbxgroup_mark, pbxgroup_dealloc, s);
-	s->parent_value = parent_value;
+	VALUE self = Data_Make_Struct(dtc_rbcPBXGroup, struct dtc_rbcPBXGroup_s, dtc_pbxgroup_mark, dtc_pbxgroup_dealloc, s);
+    return self;
+}
 
-	@autoreleasepool {
-		s->group = (__bridge_retained CFTypeRef)group;
+VALUE dtc_pbxgroup_initialize(VALUE self, PBXGroup *group, VALUE parent_value) {
+    self = dtc_pbxreference_initialize(self, group, parent_value);
+    return self;
+}
 
-		NSString *groupName = group.name;
-		if (groupName) {
-			VALUE group_name_value = rb_str_new_cstr(groupName.UTF8String);
-			rb_ivar_set(group_value, rb_intern("@name"), group_name_value);
-		}
+void dtc_pbxgroup_mark(struct dtc_rbcPBXGroup_s *s) {
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return;
 	}
 
-	return group_value;
+    dtc_pbxreference_mark((struct dtc_rbcPBXReference_s *)s);
+
+	if (s->children_value) {
+		rb_gc_mark(s->children_value);
+	}
 }
+
+void dtc_pbxgroup_dealloc(struct dtc_rbcPBXGroup_s *s) {
+	if (!s) {
+		rb_raise(rb_eArgError, "self is NULL?");
+		return;
+	}
+
+    dtc_pbxreference_dealloc((struct dtc_rbcPBXReference_s *)s);
+}
+
 
 PBXGroup *dtc_pbxgroup_pbxobject(VALUE object) {
 	struct dtc_rbcPBXGroup_s *s = NULL;
@@ -41,33 +54,7 @@ PBXGroup *dtc_pbxgroup_pbxobject(VALUE object) {
 	if (!s) {
 		return NULL;
 	}
-	return (__bridge PBXGroup *)s->group;
-}
-
-static void pbxgroup_mark(struct dtc_rbcPBXGroup_s *s) {
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	rb_gc_mark(s->parent_value);
-	if (s->children_value) {
-		rb_gc_mark(s->children_value);
-	}
-}
-
-static void pbxgroup_dealloc(struct dtc_rbcPBXGroup_s *s) {
-	if (!s) {
-		rb_raise(rb_eArgError, "self is NULL?");
-		return;
-	}
-
-	@autoreleasepool {
-		CFTypeRef g = s->group;
-		if (g) {
-			CFRelease(g);
-		}
-	}
+	return (__bridge PBXGroup *)DTC_PBXOBJECT(s)->object;
 }
 
 
@@ -80,7 +67,7 @@ static VALUE pbxgroup_children(VALUE self) {
 	}
 
 	@autoreleasepool {
-		PBXGroup * const g = (__bridge PBXGroup *)s->group;
+		PBXGroup * const g = (__bridge PBXGroup *)DTC_PBXOBJECT(s)->object;
 		if (!g) {
 			rb_raise(rb_eArgError, "group is nil?");
 			return Qnil;
@@ -115,7 +102,7 @@ static VALUE pbxgroup_set_children(VALUE self, VALUE value) {
 	Check_Type(value, T_ARRAY);
 
 	@autoreleasepool {
-		PBXGroup * const g = (__bridge PBXGroup *)s->group;
+		PBXGroup * const g = (__bridge PBXGroup *)DTC_PBXOBJECT(s)->object;
 		if (!g) {
 			rb_raise(rb_eArgError, "group is nil?");
 			return Qnil;
