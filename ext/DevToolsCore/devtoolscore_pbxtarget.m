@@ -81,6 +81,8 @@ static VALUE pbxtarget_name_set(VALUE self, VALUE name_value) {
 		return Qnil;
 	}
 
+    name_value = StringValue(name_value);
+
 	@autoreleasepool {
 		PBXTarget * const t = (__bridge PBXTarget *)DTC_PBXOBJECT(s)->object;
 		if (!t) {
@@ -88,8 +90,14 @@ static VALUE pbxtarget_name_set(VALUE self, VALUE name_value) {
 			return Qnil;
 		}
 
-		NSString * const name = [[NSString alloc] initWithUTF8String:RSTRING_PTR(name_value)];
+        NSString * const name = [[NSString alloc] initWithBytes:RSTRING_PTR(name_value) length:RSTRING_LEN(name_value) encoding:NSUTF8StringEncoding];
 		t.name = name;
+
+		NSString *targetName = t.name;
+		if (targetName) {
+			name_value = rb_str_new_cstr(targetName.UTF8String);
+			rb_ivar_set(self, rb_intern("@name"), name_value);
+		}
 
 		return name_value;
 	}
@@ -108,10 +116,10 @@ static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE se
 		return Qnil;
 	}
 
-	VALUE string_value = argv[0];
+	VALUE string_value = StringValue(argv[0]);
 	VALUE configuration_name_value = 0;
 	if (argc > 1) {
-		configuration_name_value = argv[1];
+		configuration_name_value = StringValue(argv[1]);
 	}
 	if (configuration_name_value == 0) {
 		configuration_name_value = rb_funcall(s->project, rb_intern("active_build_configuration_name"), 0);
@@ -124,9 +132,19 @@ static VALUE pbxtarget_expanded_value_for_string(int argc, VALUE *argv, VALUE se
 			return Qnil;
 		}
 
-		NSString * const string = [[NSString alloc] initWithUTF8String:RSTRING_PTR(string_value)];
-		NSString * const configurationName = [[NSString alloc] initWithUTF8String:RSTRING_PTR(configuration_name_value)];
-		NSString * const expandedValue = [t expandedValueForString:string forConfigurationNamed:configurationName];
+        Class klass = NSClassFromString(@"XCShellScriptBuildPhaseDGSnapshot");
+
+//        [t createDependenciesInTargetBuildContextIfNeeded];
+
+//        XCMacroExpansionScope * const scope = [t.targetBuildContext macroExpansionScope];
+//        XCShellScriptBuildPhaseDGSnapshot *dgs = [klass environmentWithMacroExpansionScope:scope];
+//        NSLog(@"foo: %@", [dgs buildSettings]);
+//        [dgs printForDebugging];
+
+        NSString * const string = [[NSString alloc] initWithBytes:RSTRING_PTR(string_value) length:RSTRING_LEN(string_value) encoding:NSUTF8StringEncoding];
+        NSString * const configurationName = [[NSString alloc] initWithBytes:RSTRING_PTR(configuration_name_value) length:RSTRING_LEN(configuration_name_value) encoding:NSUTF8StringEncoding];
+		NSString * const expandedValue = [t expandedValueForString:string forBuildParameters:nil];
+//		NSString * const expandedValue = [t expandedValueForString:string forConfigurationNamed:configurationName];
 
 		VALUE const expanded_value_value = rb_str_new_cstr(expandedValue.UTF8String);
 		return expanded_value_value;

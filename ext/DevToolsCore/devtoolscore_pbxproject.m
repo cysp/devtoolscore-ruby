@@ -9,16 +9,43 @@
 #include "devtoolscore_pbxtarget.h"
 
 
-static VALUE pbxproject_open(VALUE self, VALUE project_path_value) {
+static VALUE pbxproject_open(int argc, VALUE *argv, VALUE self) {
 	if (self != dtc_rbcPBXProject) {
 		rb_raise(rb_eArgError, "");
 	}
 
-	Check_Type(project_path_value, T_STRING);
+    if (argc < 1 || argc > 2) {
+		rb_raise(rb_eArgError, "incorrect number of arguments");
+		return Qnil;
+	}
+
+    VALUE project_path_value = StringValue(argv[0]);
+
+    VALUE options_value = Qnil;
+    if (argc > 1) {
+        options_value = argv[1];
+    }
+
+    if (options_value != Qnil) {
+        Check_Type(options_value, T_HASH);
+    }
+
+    VALUE options_readonly_value = Qnil;
+    if (options_value != Qnil) {
+        if (options_readonly_value == Qnil) {
+            VALUE const readonly_sym_value = ID2SYM(rb_intern("readonly"));
+            options_readonly_value = rb_hash_lookup2(options_value, readonly_sym_value, Qfalse);
+        }
+        if (options_readonly_value == Qnil) {
+            VALUE const readonly_str_value = rb_str_new_cstr("readonly");
+            options_readonly_value = rb_hash_lookup2(options_value, readonly_str_value, Qfalse);
+        }
+    }
+    BOOL const readonly = RTEST(options_readonly_value);
 
 	@autoreleasepool {
 		NSString * const path = [[NSString alloc] initWithUTF8String:RSTRING_PTR(project_path_value)];
-		PBXProject * const project = [dtc_cPBXProject projectWithFile:path errorHandler:nil readOnly:NO];
+		PBXProject * const project = [dtc_cPBXProject projectWithFile:path errorHandler:nil readOnly:readonly];
 		if (!project) {
 			return Qnil;
 		}
@@ -37,29 +64,29 @@ VALUE dtc_pbxproject_alloc(VALUE klass) {
 	return project_value;
 }
 
-VALUE dtc_pbxproject_initialize(VALUE object, PBXProject *project) {
+VALUE dtc_pbxproject_initialize(VALUE self, PBXProject *project) {
+    self = dtc_pbxobject_initialize(self, project);
+
 	struct dtc_rbcPBXProject_s *s = NULL;
-    Data_Get_Struct(object, struct dtc_rbcPBXProject_s, s);
+    Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
    	if (!s) {
    	    return Qnil;
     }
 
     @autoreleasepool {
-		DTC_PBXOBJECT(s)->object = (__bridge_retained CFTypeRef)project;
-
 		NSString * const project_name = project.name;
 		if (project_name) {
 			VALUE const project_name_value = rb_str_new_cstr(project_name.UTF8String);
-			rb_ivar_set(object, rb_intern("@name"), project_name_value);
+			rb_ivar_set(self, rb_intern("@name"), project_name_value);
 		}
 
 		NSString * const project_path = project.path;
 		if (project_path) {
 			VALUE const project_path_value = rb_str_new_cstr(project_path.UTF8String);
-			rb_ivar_set(object, rb_intern("@path"), project_path_value);
+			rb_ivar_set(self, rb_intern("@path"), project_path_value);
 		}
 
-		return object;
+		return self;
 	}
 }
 
@@ -228,7 +255,7 @@ static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
 
 	VALUE path_value = 0;
 	if (argc == 1) {
-		path_value = argv[0];
+		path_value = StringValue(argv[0]);
 	}
 
 	@autoreleasepool {
@@ -236,8 +263,11 @@ static VALUE pbxproject_write(int argc, VALUE *argv, VALUE self) {
 		if (!p) {
 			return Qfalse;
 		}
+        if ([p isReadOnly]) {
+            return Qfalse;
+        }
 
-		NSString *path = path_value ? [[NSString alloc] initWithUTF8String:RSTRING_PTR(path_value)] : nil;
+        NSString *path = path_value ? [[NSString alloc] initWithBytes:RSTRING_PTR(path_value) length:RSTRING_LEN(path_value) encoding:NSUTF8StringEncoding] : nil;
 		if (!path) {
 			path = p.path;
 		}
@@ -259,7 +289,7 @@ void dtc_pbxproject_define(void) {
 
 	dtc_rbcPBXProject = rb_define_class_under(dtc_rbmDevToolsCore, "PBXProject", dtc_rbcPBXContainer);
 	rb_define_alloc_func(dtc_rbcPBXProject, dtc_alloc_raise);
-	rb_define_singleton_method(dtc_rbcPBXProject, "open", pbxproject_open, 1);
+	rb_define_singleton_method(dtc_rbcPBXProject, "open", pbxproject_open, -1);
 	rb_define_attr(dtc_rbcPBXProject, "name", 1, 0);
 	rb_define_attr(dtc_rbcPBXProject, "path", 1, 0);
 	rb_define_method(dtc_rbcPBXProject, "root_group", pbxproject_root_group, 0);

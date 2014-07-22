@@ -1,8 +1,6 @@
 require 'mkmf'
 
-extension_name = 'devtoolscore'
-
-dir_config extension_name
+dir_config 'devtoolscore'
 
 $CFLAGS << ' -fobjc-arc -O0'
 #$DLDFLAGS << ' -framework CoreFoundation'
@@ -23,7 +21,7 @@ $DLDFLAGS << ' -framework Foundation'
 #$DLDFLAGS << ' -framework DevToolsCore'
 #$DLDFLAGS << ' -framework DevToolsFoundation'
 
-create_makefile extension_name
+create_makefile 'devtoolscore/devtoolscore'
 
 system 'mv -f Makefile Makefile.bak'
 system 'sed -e \'s/^\.c\.o:$/\.m\.o:/\' Makefile.bak > Makefile'

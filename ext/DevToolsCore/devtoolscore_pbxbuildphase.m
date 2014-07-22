@@ -10,12 +10,17 @@
 
 
 VALUE dtc_pbxbuildphase_new(PBXBuildPhase *buildphase, VALUE target_value) {
-	struct dtc_rbcPBXBuildPhase_s *s = NULL;
 	VALUE const klass = dtc_klass_for_pbxobject(buildphase);
-	VALUE self = Data_Make_Struct(klass, struct dtc_rbcPBXBuildPhase_s, dtc_pbxbuildphase_mark, dtc_pbxbuildphase_dealloc, s);
+    VALUE self = dtc_pbxbuildphase_alloc(klass);
+    self = dtc_pbxbuildphase_initialize(self, buildphase, target_value);
     return self;
 }
 
+VALUE dtc_pbxbuildphase_alloc(VALUE klass) {
+    struct dtc_rbcPBXBuildPhase_s *s = NULL;
+	VALUE self = Data_Make_Struct(klass, struct dtc_rbcPBXBuildPhase_s, dtc_pbxbuildphase_mark, dtc_pbxbuildphase_dealloc, s);
+    return self;
+}
 
 VALUE dtc_pbxbuildphase_initialize(VALUE self, PBXBuildPhase *buildphase, VALUE target_value) {
     self = dtc_pbxobject_initialize(self, buildphase);

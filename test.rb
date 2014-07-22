@@ -19,24 +19,11 @@ pp targets
 t = targets[2]
 puts 'e'
 pp p.available_build_configuration_names
-pp p.active_build_configuration_name
+#pp p.active_build_configuration_name
 puts 'f'
 
-if false then
-  pp t.expanded_value_for_string('${BUILD_ROOT}')
-  pp t.expanded_value_for_string('${BUILD_ROOT}', 'Debug')
-  pp t.expanded_value_for_string('${BUILD_ROOT}', 'Release')
 
-  pp t.expanded_value_for_string('${CONFIGURATION_BUILD_DIR}', 'Release')
-  pp t.expanded_value_for_string('${CONFIGURATION_BUILD_DIR}', 'Coverage')
-
-  pp t.expanded_value_for_string('${OBJECT_FILE_DIR}')
-  pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Debug')
-  pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Release')
-  pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Coverage')
-end
-
-pp t.expanded_value_for_string('${OBJECT_FILE_DIR}')
+#pp t.expanded_value_for_string('${OBJECT_FILE_DIR}')
 pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Debug')
 pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Release')
 pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Coverage')

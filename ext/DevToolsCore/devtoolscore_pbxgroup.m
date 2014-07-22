@@ -25,6 +25,17 @@ VALUE dtc_pbxgroup_initialize(VALUE self, PBXGroup *group, VALUE parent_value) {
     return self;
 }
 
+VALUE dtc_pbxgroup_initialize_rb(VALUE self, VALUE name_value) {
+    name_value = StringValue(name_value);
+    @autoreleasepool {
+        NSString * const name = [[NSString alloc] initWithBytes:RSTRING_PTR(name_value) length:RSTRING_LEN(name_value) encoding:NSUTF8StringEncoding];
+        PBXGroup *group = [dtc_cPBXGroup groupWithName:name];
+        self = dtc_pbxreference_initialize(self, group, Qnil);
+    }
+    return self;
+}
+
+
 void dtc_pbxgroup_mark(struct dtc_rbcPBXGroup_s *s) {
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
@@ -113,15 +124,20 @@ static VALUE pbxgroup_set_children(VALUE self, VALUE value) {
 		VALUE children_value = rb_obj_freeze(rb_ary_dup(value));
 		long const children_value_length = RARRAY_LEN(children_value);
 		for (long i = 0; i < children_value_length; ++i) {
-			VALUE obj = rb_ary_entry(children_value, i);
-			if (!rb_obj_is_kind_of(obj, dtc_rbcPBXObject)) {
+			VALUE child_value = rb_ary_entry(children_value, i);
+			if (!rb_obj_is_kind_of(child_value, dtc_rbcPBXObject)) {
 				rb_raise(rb_eArgError, "[%ld] is not a PBXObject", i);
 			}
+			PBXObject *child = dtc_pbxsomething_pbxobject(child_value);
+            if (!child) {
+                rb_raise(rb_eArgError, "unable to determine type of child at index %ld", i);
+            }
 		}
 
 		NSArray * const existingChildren = g.children;
 
-		for (long i = 0; i < children_value_length; ++i) {
+        long i = 0;
+		for (; i < children_value_length; ++i) {
 			VALUE child_value = rb_ary_entry(children_value, i);
 			PBXObject *child = dtc_pbxsomething_pbxobject(child_value);
 			NSInteger foundIdx = [existingChildren indexOfObjectIdenticalTo:child];
@@ -131,6 +147,9 @@ static VALUE pbxgroup_set_children(VALUE self, VALUE value) {
 				[g insertInChildren:child atIndex:i];
 			}
 		}
+        for (; i < g.children.count; ++i) {
+            [g removeFromChildrenAtIndex:i--];
+        }
 
 		return children_value;
 	}
@@ -144,8 +163,8 @@ void dtc_pbxgroup_define(void) {
 	}
 
 	dtc_rbcPBXGroup = rb_define_class_under(dtc_rbmDevToolsCore, "PBXGroup", dtc_rbcPBXReference);
-	rb_define_alloc_func(dtc_rbcPBXGroup, dtc_alloc_raise);
-	rb_define_attr(dtc_rbcPBXGroup, "name", 1, 0);
+	rb_define_alloc_func(dtc_rbcPBXGroup, dtc_pbxgroup_alloc);
+    rb_define_method(dtc_rbcPBXGroup, "initialize", dtc_pbxgroup_initialize_rb, 1);
 	rb_define_method(dtc_rbcPBXGroup, "children", pbxgroup_children, 0);
 	rb_define_method(dtc_rbcPBXGroup, "children=", pbxgroup_set_children, 1);
 }
