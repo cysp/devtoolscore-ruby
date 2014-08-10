@@ -133,7 +133,7 @@
 @end
 
 @interface PBXReference : PBXContainerItem
-@property (nonatomic,strong,readonly) NSString *name;
+@property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong,readonly) NSString *projectRelativePath;
 - (NSArray *)children;
 @end
@@ -168,7 +168,9 @@
 @end
 
 @interface PBXGroup : PBXReference
++ (id)groupWithName:(NSString *)name;
 - (void)insertInChildren:(id)arg1 atIndex:(unsigned long long)arg2;
+- (void)removeFromChildrenAtIndex:(unsigned long long)arg2;
 - (void)moveObject:(id)arg1 toIndex:(unsigned long long)arg2;
 @end
 

@@ -226,14 +226,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0/x86_64-darwin12.4.0",
-					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0",
+					"/usr/local/Cellar/ruby/2.1.2_2/include/ruby-2.1.0/x86_64-darwin13.0",
+					"/usr/local/Cellar/ruby/2.1.2_2/include/ruby-2.1.0",
 				);
 				INSTALL_MODE_FLAG = "u+w,go-w,a+r";
 				INSTALL_PATH = "$(SRCROOT)/lib/devtoolscore";
 				LIBRARY_SEARCH_PATHS = (
 					.,
-					"/usr/local/Cellar/ruby/2.0.0-p247/lib",
+					/usr/local/Cellar/ruby/2.1.2_2/lib,
 				);
 				MACH_O_TYPE = mh_bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -279,14 +279,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0/x86_64-darwin12.4.0",
-					"/usr/local/Cellar/ruby/2.0.0-p247/include/ruby-2.0.0",
+					"/usr/local/Cellar/ruby/2.1.2_2/include/ruby-2.1.0/x86_64-darwin13.0",
+					"/usr/local/Cellar/ruby/2.1.2_2/include/ruby-2.1.0",
 				);
 				INSTALL_MODE_FLAG = "u+w,go-w,a+r";
 				INSTALL_PATH = "$(SRCROOT)/lib/devtoolscore";
 				LIBRARY_SEARCH_PATHS = (
 					.,
-					"/usr/local/Cellar/ruby/2.0.0-p247/lib",
+					/usr/local/Cellar/ruby/2.1.2_2/lib,
 				);
 				MACH_O_TYPE = mh_bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
