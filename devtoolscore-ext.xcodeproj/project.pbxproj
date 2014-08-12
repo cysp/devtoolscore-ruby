@@ -167,7 +167,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp ${SYMROOT}/devtoolscore.bundle ${SRCROOT}/lib/devtoolscore";
+			shellScript = "cp ${BUILT_PRODUCTS_DIR}/devtoolscore.bundle ${SRCROOT}/lib/devtoolscore";
 		};
 /* End PBXShellScriptBuildPhase section */
 

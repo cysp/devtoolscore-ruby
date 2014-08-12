@@ -129,6 +129,39 @@ PBXProject *dtc_pbxproject_pbxobject(VALUE object) {
 }
 
 
+static VALUE pbxproject_children(VALUE self) {
+    struct dtc_rbcPBXProject_s *s = NULL;
+    Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
+    if (!s) {
+        rb_raise(rb_eArgError, "self is NULL?");
+        return Qnil;
+    }
+
+    @autoreleasepool {
+        PBXProject * const g = (__bridge PBXProject *)DTC_PBXOBJECT(s)->object;
+        if (!g) {
+            rb_raise(rb_eArgError, "group is nil?");
+            return Qnil;
+        }
+
+        VALUE children_value = s->children_value;
+        if (children_value) {
+            return children_value;
+        }
+
+        NSArray * const children = g.children;
+        children_value = rb_ary_new2(children.count);
+        for (PBXObject *child in children) {
+            VALUE const child_value = dtc_pbxsomething_new(child, self) ?: Qnil;
+            rb_ary_push(children_value, child_value);
+        }
+        
+        s->children_value = children_value;
+        
+        return children_value;
+    }
+}
+
 static VALUE pbxproject_root_group(VALUE self) {
 	struct dtc_rbcPBXProject_s *s = NULL;
 	Data_Get_Struct(self, struct dtc_rbcPBXProject_s, s);
@@ -292,6 +325,7 @@ void dtc_pbxproject_define(void) {
 	rb_define_singleton_method(dtc_rbcPBXProject, "open", pbxproject_open, -1);
 	rb_define_attr(dtc_rbcPBXProject, "name", 1, 0);
 	rb_define_attr(dtc_rbcPBXProject, "path", 1, 0);
+    rb_define_method(dtc_rbcPBXProject, "children", pbxproject_children, 0);
 	rb_define_method(dtc_rbcPBXProject, "root_group", pbxproject_root_group, 0);
 	rb_define_method(dtc_rbcPBXProject, "targets", pbxproject_targets, 0);
 	rb_define_method(dtc_rbcPBXProject, "active_build_configuration_name", pbxproject_active_build_configuration_name, 0);

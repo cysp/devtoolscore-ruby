@@ -9,6 +9,8 @@ extern VALUE dtc_alloc_raise(VALUE klass);
 
 #define DEVTOOLSCORE_DECLARE_CLASSES(klass) extern Class dtc_c##klass; extern VALUE dtc_rbc##klass;
 
+extern Class dtc_cPBXGlobalID;
+
 DEVTOOLSCORE_DECLARE_CLASSES(PBXObject)
 DEVTOOLSCORE_DECLARE_CLASSES(PBXContainer)
 DEVTOOLSCORE_DECLARE_CLASSES(PBXProject)

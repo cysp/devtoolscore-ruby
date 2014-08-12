@@ -14,7 +14,18 @@
 
 #pragma mark -
 
+@interface PBXGlobalID : NSObject <NSCopying> {
+@public
+    uint8_t _bytes[24];
+    id _theObject;
+}
+- (NSString *)hexString;
+- (id)representedObject;
+@end
+
 @interface PBXObject : NSObject
+- (PBXGlobalID *)globalID;
+- (void)dtc_splatGlobalIDHexString:(NSString *)hexString;
 @end
 
 @interface PBXContainer : PBXObject
@@ -160,11 +171,6 @@
 @end
 
 @interface PBXFrameworksBuildPhase : PBXBuildPhase
-@end
-
-@interface PBXGlobalID : NSObject <NSCopying>
-- (id)hexString;
-- (id)representedObject;
 @end
 
 @interface PBXGroup : PBXReference

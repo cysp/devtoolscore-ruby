@@ -7,7 +7,8 @@ require 'devtoolscore'
 require 'pp'
 
 puts 'a'
-p = DevToolsCore::PBXProject.open('/Users/psyc/src/STBase64Encoding/STBase64Encoding.xcodeproj')
+p = DevToolsCore::PBXProject.open(File.absolute_path('t/STBase64Encoding.xcodeproj'))
+p.root_group.global_id = '000000000000000000000000'
 puts 'b'
 pp p
 puts 'c'
@@ -24,13 +25,13 @@ puts 'f'
 
 
 #pp t.expanded_value_for_string('${OBJECT_FILE_DIR}')
-pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Debug')
-pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Release')
-pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Coverage')
+#pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Debug')
+#pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Release')
+#pp t.expanded_value_for_string('${OBJECT_FILE_DIR}', 'Coverage')
 
 pp p.path
 
-#pp p.write
+pp p.write
 #pp p.write(File.join(BASEDIR, 'foo.xcodeproj'))
 #puts p.methods
 #puts 'e'

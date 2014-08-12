@@ -71,8 +71,8 @@ PBXReference *dtc_pbxreference_pbxobject(VALUE object) {
 static VALUE pbxreference_name_set(VALUE self, VALUE name_value) {
 	Check_Type(name_value, T_STRING);
 
-	struct dtc_rbcPBXTarget_s *s = NULL;
-	Data_Get_Struct(self, struct dtc_rbcPBXTarget_s, s);
+	struct dtc_rbcPBXReference_s *s = NULL;
+	Data_Get_Struct(self, struct dtc_rbcPBXReference_s, s);
 	if (!s) {
 		rb_raise(rb_eArgError, "self is NULL?");
 		return Qnil;

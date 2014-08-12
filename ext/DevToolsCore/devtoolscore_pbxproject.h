@@ -12,7 +12,8 @@
 
 
 struct dtc_rbcPBXProject_s {
-	struct dtc_rbcPBXObject_s super;
+    struct dtc_rbcPBXObject_s super;
+    VALUE children_value;
 	VALUE root_group_value;
 	VALUE targets_value;
 };

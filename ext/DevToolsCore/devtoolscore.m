@@ -21,6 +21,8 @@ VALUE dtc_rbmDevToolsCore = 0;
 
 #define DEVTOOLSCORE_DEFINE_CLASSES(klass) Class dtc_c##klass = nil; VALUE dtc_rbc##klass = 0;
 
+Class dtc_cPBXGlobalID = nil;
+
 DEVTOOLSCORE_DEFINE_CLASSES(PBXObject)
 DEVTOOLSCORE_DEFINE_CLASSES(PBXContainer)
 DEVTOOLSCORE_DEFINE_CLASSES(PBXProject)
@@ -86,12 +88,12 @@ void Init_devtoolscore() {
 		}
 	}
 
+    dtc_cPBXGlobalID = NSClassFromString(@"PBXGlobalID");
+
 	dtc_cPBXObject = NSClassFromString(@"PBXObject");
 
 	dtc_cPBXContainer = NSClassFromString(@"PBXContainer");
 	dtc_cPBXProject = NSClassFromString(@"PBXProject");
-	dtc_cPBXFolder = NSClassFromString(@"PBXFolder");
-	dtc_cPBXFramework = NSClassFromString(@"PBXFramework");
 
 	dtc_cPBXContainerItem = NSClassFromString(@"PBXContainerItem");
 	dtc_cPBXProjectItem = NSClassFromString(@"PBXProjectItem");
